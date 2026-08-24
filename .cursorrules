@@ -1,0 +1,15 @@
+# Cursor — use com Celebro
+
+Always read and follow Celebro.md as the operational brain of this project.
+Also respect AGENTS.md and ROADMAP.md when present.
+
+Language: follow Celebro.md (default Portuguese Brazil if the project is BR).
+
+Critical:
+- Do not invent rules that contradict Celebro.md.
+- Never commit real API keys or tokens. Only document secret *names*.
+- After meaningful product/flow changes, update Celebro.md.
+
+Prefer editing existing files over creating parallel architecture.
+
+Kit: https://github.com/josemar14/celebro
