@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI Ebook Creator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     :root {
       --bg: #0f0f13;
@@ -19,11 +20,7 @@
       --radius: 14px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -76,9 +73,7 @@
       gap: 8px;
     }
 
-    .card h2 span {
-      font-size: 1.3rem;
-    }
+    .card h2 span { font-size: 1.3rem; }
 
     label {
       display: block;
@@ -87,9 +82,26 @@
       margin-bottom: 8px;
     }
 
+    input[type="text"] {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      margin-bottom: 16px;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
     textarea {
       width: 100%;
-      min-height: 160px;
+      min-height: 180px;
       background: var(--surface2);
       border: 1px solid var(--border);
       border-radius: 10px;
@@ -121,18 +133,10 @@
       background: rgba(124, 92, 255, 0.08);
     }
 
-    .dropzone p {
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
+    .dropzone p { color: var(--muted); font-size: 0.95rem; }
+    .dropzone strong { color: var(--accent); }
 
-    .dropzone strong {
-      color: var(--accent);
-    }
-
-    input[type="file"] {
-      display: none;
-    }
+    input[type="file"] { display: none; }
 
     .file-list {
       margin-top: 14px;
@@ -177,16 +181,7 @@
       padding: 0 2px;
     }
 
-    .file-chip button:hover {
-      color: var(--danger);
-    }
-
-    .actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 8px;
-    }
+    .file-chip button:hover { color: var(--danger); }
 
     button.primary {
       background: var(--accent);
@@ -203,14 +198,8 @@
       gap: 8px;
     }
 
-    button.primary:hover {
-      background: var(--accent-hover);
-    }
-
-    button.primary:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+    button.primary:hover { background: var(--accent-hover); }
+    button.primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
     button.secondary {
       background: var(--surface2);
@@ -223,18 +212,10 @@
       transition: all 0.2s;
     }
 
-    button.secondary:hover {
-      border-color: var(--accent);
-    }
+    button.secondary:hover { border-color: var(--accent); }
 
-    /* Resultado */
-    #result {
-      display: none;
-    }
-
-    #result.visible {
-      display: block;
-    }
+    #result { display: none; }
+    #result.visible { display: block; }
 
     .status {
       display: flex;
@@ -253,9 +234,7 @@
       animation: spin 0.7s linear infinite;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .chapter {
       background: var(--surface2);
@@ -265,15 +244,8 @@
       border-left: 3px solid var(--accent);
     }
 
-    .chapter h3 {
-      font-size: 1rem;
-      margin-bottom: 6px;
-    }
-
-    .chapter p {
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
+    .chapter h3 { font-size: 1rem; margin-bottom: 6px; }
+    .chapter p { color: var(--muted); font-size: 0.9rem; }
 
     .platforms {
       display: grid;
@@ -291,19 +263,9 @@
       transition: border-color 0.2s;
     }
 
-    .platform:hover {
-      border-color: var(--accent);
-    }
-
-    .platform strong {
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .platform span {
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
+    .platform:hover { border-color: var(--accent); }
+    .platform strong { display: block; margin-bottom: 4px; }
+    .platform span { font-size: 0.8rem; color: var(--muted); }
 
     .download-area {
       margin-top: 24px;
@@ -319,10 +281,7 @@
       font-size: 0.85rem;
     }
 
-    footer a {
-      color: var(--accent);
-      text-decoration: none;
-    }
+    footer a { color: var(--accent); text-decoration: none; }
   </style>
 </head>
 <body>
@@ -332,11 +291,17 @@
       <p>Envie seu roteiro, áudio e imagens. A IA organiza tudo e gera o e-book.</p>
     </header>
 
+    <!-- Título do livro -->
+    <div class="card">
+      <h2><span>📖</span> Título do E-book</h2>
+      <input type="text" id="bookTitle" placeholder="Ex: A Jornada do Herói" value="Meu E-book" />
+    </div>
+
     <!-- Texto -->
     <div class="card">
       <h2><span>📝</span> Roteiro / História (texto)</h2>
       <label for="storyText">Cole ou digite o conteúdo principal</label>
-      <textarea id="storyText" placeholder="Ex: Capítulo 1 – O início da jornada...\n\nEra uma vez..."></textarea>
+      <textarea id="storyText" placeholder="Ex:\nCapítulo 1 – O início\n\nEra uma vez...\n\nCapítulo 2 – O conflito\n\nDe repente..."></textarea>
     </div>
 
     <!-- Áudio -->
@@ -377,7 +342,7 @@
         ✨ Gerar E-book com IA
       </button>
       <p style="color:var(--muted);font-size:0.85rem;margin-top:12px">
-        A IA vai ler tudo, organizar a história e montar o e-book.
+        A IA organiza a história e gera um PDF pronto para baixar.
       </p>
     </div>
 
@@ -394,36 +359,17 @@
         <div id="chapters"></div>
 
         <div class="download-area">
-          <button class="primary" onclick="alert('Em breve: download real do PDF/EPUB')">⬇ Baixar PDF</button>
-          <button class="secondary" onclick="alert('Em breve: download real do EPUB')">⬇ Baixar EPUB</button>
+          <button class="primary" id="downloadPdfBtn" onclick="downloadPDF()">⬇ Baixar PDF</button>
         </div>
 
         <h3 style="margin:28px 0 12px;font-size:1.1rem">Onde publicar e vender</h3>
         <div class="platforms">
-          <div class="platform">
-            <strong>Amazon KDP</strong>
-            <span>Maior alcance global</span>
-          </div>
-          <div class="platform">
-            <strong>Hotmart</strong>
-            <span>Ideal para Brasil</span>
-          </div>
-          <div class="platform">
-            <strong>Gumroad</strong>
-            <span>Simples e direto</span>
-          </div>
-          <div class="platform">
-            <strong>Apple Books</strong>
-            <span>Público premium</span>
-          </div>
-          <div class="platform">
-            <strong>Google Play Books</strong>
-            <span>Android + web</span>
-          </div>
-          <div class="platform">
-            <strong>Kobo</strong>
-            <span>Boa alternativa</span>
-          </div>
+          <div class="platform"><strong>Amazon KDP</strong><span>Maior alcance global</span></div>
+          <div class="platform"><strong>Hotmart</strong><span>Ideal para Brasil</span></div>
+          <div class="platform"><strong>Gumroad</strong><span>Simples e direto</span></div>
+          <div class="platform"><strong>Apple Books</strong><span>Público premium</span></div>
+          <div class="platform"><strong>Google Play Books</strong><span>Android + web</span></div>
+          <div class="platform"><strong>Kobo</strong><span>Boa alternativa</span></div>
         </div>
       </div>
     </div>
@@ -434,38 +380,29 @@
   </div>
 
   <script>
-    // Estado dos arquivos
+    const { jsPDF } = window.jspdf;
+
     const state = {
       audio: null,
       images: [],
-      others: []
+      others: [],
+      chapters: [],
+      title: 'Meu E-book'
     };
 
-    // Helpers de dropzone
     function setupDropzone(dropzoneId, inputId, type) {
       const dropzone = document.getElementById(dropzoneId);
       const input = document.getElementById(inputId);
 
       dropzone.addEventListener('click', () => input.click());
-
-      dropzone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropzone.classList.add('dragover');
-      });
-
-      dropzone.addEventListener('dragleave', () => {
-        dropzone.classList.remove('dragover');
-      });
-
+      dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
+      dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
       dropzone.addEventListener('drop', (e) => {
         e.preventDefault();
         dropzone.classList.remove('dragover');
         handleFiles(e.dataTransfer.files, type);
       });
-
-      input.addEventListener('change', (e) => {
-        handleFiles(e.target.files, type);
-      });
+      input.addEventListener('change', (e) => handleFiles(e.target.files, type));
     }
 
     function handleFiles(files, type) {
@@ -485,13 +422,9 @@
       const list = document.getElementById('audioList');
       list.innerHTML = '';
       if (!state.audio) return;
-
       const chip = document.createElement('div');
       chip.className = 'file-chip';
-      chip.innerHTML = `
-        <span class="name">🎤 ${state.audio.name}</span>
-        <button onclick="removeAudio()">×</button>
-      `;
+      chip.innerHTML = `<span class="name">🎤 ${state.audio.name}</span><button onclick="removeAudio()">×</button>`;
       list.appendChild(chip);
     }
 
@@ -508,11 +441,7 @@
         const url = URL.createObjectURL(file);
         const chip = document.createElement('div');
         chip.className = 'file-chip';
-        chip.innerHTML = `
-          <img src="${url}" alt="" />
-          <span class="name">${file.name}</span>
-          <button onclick="removeImage(${i})">×</button>
-        `;
+        chip.innerHTML = `<img src="${url}" alt="" /><span class="name">${file.name}</span><button onclick="removeImage(${i})">×</button>`;
         list.appendChild(chip);
       });
     }
@@ -528,10 +457,7 @@
       state.others.forEach((file, i) => {
         const chip = document.createElement('div');
         chip.className = 'file-chip';
-        chip.innerHTML = `
-          <span class="name">📄 ${file.name}</span>
-          <button onclick="removeOther(${i})">×</button>
-        `;
+        chip.innerHTML = `<span class="name">📄 ${file.name}</span><button onclick="removeOther(${i})">×</button>`;
         list.appendChild(chip);
       });
     }
@@ -541,19 +467,74 @@
       renderOthers();
     }
 
-    // Setup
     setupDropzone('audioDropzone', 'audioInput', 'audio');
     setupDropzone('imageDropzone', 'imageInput', 'image');
     setupDropzone('otherDropzone', 'otherInput', 'other');
 
-    // Geração (mock por enquanto)
+    /** Detecta capítulos de forma mais inteligente */
+    function detectChapters(text) {
+      const lines = text.split(/\n+/).map(l => l.trim()).filter(Boolean);
+      if (lines.length === 0) {
+        return [{ title: 'Capítulo 1 – Conteúdo a partir do áudio', body: 'A IA irá transcrever o áudio e estruturar a história automaticamente.' }];
+      }
+
+      const chapters = [];
+      let current = null;
+
+      const chapterRegex = /^(capítulo|capitulo|chapter|parte|seção|secao)\s*\d+/i;
+      const numberedRegex = /^\d+[\.)]\s+/;
+
+      lines.forEach((line) => {
+        const isChapterTitle = chapterRegex.test(line) || (numberedRegex.test(line) && line.length < 80);
+
+        if (isChapterTitle) {
+          if (current) chapters.push(current);
+          current = { title: line, body: '' };
+        } else {
+          if (!current) {
+            current = { title: 'Capítulo 1 – Introdução', body: '' };
+          }
+          current.body += (current.body ? '\n\n' : '') + line;
+        }
+      });
+
+      if (current) chapters.push(current);
+
+      // Se só encontrou 1 capítulo muito longo, tenta dividir por parágrafos grandes
+      if (chapters.length === 1 && chapters[0].body.length > 1200) {
+        const parts = chapters[0].body.split(/\n\n+/);
+        const newChapters = [];
+        let buf = '';
+        let num = 1;
+
+        parts.forEach((p) => {
+          buf += (buf ? '\n\n' : '') + p;
+          if (buf.length > 600) {
+            newChapters.push({
+              title: `Capítulo ${num}`,
+              body: buf
+            });
+            num++;
+            buf = '';
+          }
+        });
+        if (buf) newChapters.push({ title: `Capítulo ${num}`, body: buf });
+        return newChapters.length ? newChapters : chapters;
+      }
+
+      return chapters;
+    }
+
     function generateEbook() {
       const text = document.getElementById('storyText').value.trim();
+      const title = document.getElementById('bookTitle').value.trim() || 'Meu E-book';
+
       if (!text && !state.audio) {
         alert('Envie pelo menos um texto ou um áudio para gerar o e-book.');
         return;
       }
 
+      state.title = title;
       const btn = document.getElementById('generateBtn');
       const result = document.getElementById('result');
       const status = document.getElementById('status');
@@ -563,68 +544,140 @@
       btn.disabled = true;
       result.classList.add('visible');
       status.style.display = 'flex';
+      status.innerHTML = '<div class="spinner"></div><span>Processando com a IA…</span>';
       content.style.display = 'none';
       chaptersEl.innerHTML = '';
 
-      // Simula processamento da IA
       setTimeout(() => {
-        status.innerHTML = '<span style="color:var(--success)">✓ Processamento concluído</span>';
+        const chapters = detectChapters(text);
+        state.chapters = chapters;
 
-        // Gera estrutura mock baseada no texto
-        const lines = text.split('\n').filter(l => l.trim());
-        const chapters = [];
-
-        if (lines.length > 0) {
-          // Tenta detectar capítulos ou cria estrutura básica
-          let current = { title: 'Capítulo 1 – Introdução', preview: '' };
-          let chapNum = 1;
-
-          lines.forEach((line, idx) => {
-            if (/capítulo|capitulo|chapter/i.test(line) || (idx > 0 && idx % 8 === 0)) {
-              if (current.preview) chapters.push({ ...current });
-              chapNum++;
-              current = {
-                title: /capítulo|capitulo|chapter/i.test(line) ? line.trim() : `Capítulo ${chapNum}`,
-                preview: ''
-              };
-            } else {
-              if (current.preview.length < 120) {
-                current.preview += (current.preview ? ' ' : '') + line.trim();
-              }
-            }
-          });
-          if (current.preview || chapters.length === 0) {
-            if (!current.preview) current.preview = text.slice(0, 140) + '…';
-            chapters.push(current);
-          }
-        } else {
-          chapters.push({
-            title: 'Capítulo 1 – Conteúdo a partir do áudio',
-            preview: 'A IA irá transcrever o áudio e estruturar a história automaticamente.'
-          });
-        }
-
-        // Adiciona menção às imagens se houver
         if (state.images.length > 0) {
           chapters.push({
             title: `Ilustrações (${state.images.length} imagem${state.images.length > 1 ? 'ns' : ''})`,
-            preview: 'As imagens enviadas serão posicionadas nos capítulos correspondentes.'
+            body: 'As imagens enviadas serão posicionadas nos capítulos correspondentes no e-book final.'
           });
         }
 
         chapters.forEach(ch => {
           const div = document.createElement('div');
           div.className = 'chapter';
-          div.innerHTML = `<h3>${ch.title}</h3><p>${ch.preview || 'Conteúdo processado pela IA.'}</p>`;
+          const preview = ch.body.length > 160 ? ch.body.slice(0, 160) + '…' : ch.body;
+          div.innerHTML = `<h3>${ch.title}</h3><p>${preview || 'Conteúdo processado pela IA.'}</p>`;
           chaptersEl.appendChild(div);
         });
 
+        status.innerHTML = '<span style="color:var(--success)">✓ E-book estruturado com sucesso</span>';
         content.style.display = 'block';
         btn.disabled = false;
-
-        // Scroll suave até o resultado
         result.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 2200);
+      }, 1800);
+    }
+
+    function downloadPDF() {
+      if (!state.chapters.length) {
+        alert('Gere o e-book primeiro.');
+        return;
+      }
+
+      const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const margin = 20;
+      const maxWidth = pageWidth - margin * 2;
+      let y = 0;
+
+      // Capa
+      doc.setFillColor(15, 15, 19);
+      doc.rect(0, 0, pageWidth, pageHeight, 'F');
+
+      doc.setTextColor(124, 92, 255);
+      doc.setFontSize(12);
+      doc.text('AI EBOOK CREATOR', pageWidth / 2, 50, { align: 'center' });
+
+      doc.setTextColor(240, 240, 245);
+      doc.setFontSize(28);
+      doc.setFont('helvetica', 'bold');
+      const titleLines = doc.splitTextToSize(state.title, maxWidth - 10);
+      doc.text(titleLines, pageWidth / 2, 90, { align: 'center' });
+
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(160, 160, 176);
+      doc.text('Gerado com inteligência artificial', pageWidth / 2, 120, { align: 'center' });
+      doc.text(new Date().toLocaleDateString('pt-BR'), pageWidth / 2, 130, { align: 'center' });
+
+      // Capítulos
+      state.chapters.forEach((ch, idx) => {
+        doc.addPage();
+        y = margin;
+
+        doc.setTextColor(124, 92, 255);
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        const titleLines = doc.splitTextToSize(ch.title, maxWidth);
+        doc.text(titleLines, margin, y);
+        y += titleLines.length * 8 + 6;
+
+        doc.setDrawColor(124, 92, 255);
+        doc.setLineWidth(0.5);
+        doc.line(margin, y, pageWidth - margin, y);
+        y += 10;
+
+        doc.setTextColor(40, 40, 50);
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'normal');
+
+        const bodyLines = doc.splitTextToSize(ch.body || 'Conteúdo processado pela IA.', maxWidth);
+
+        bodyLines.forEach((line) => {
+          if (y > pageHeight - margin - 10) {
+            doc.addPage();
+            y = margin;
+          }
+          doc.text(line, margin, y);
+          y += 6;
+        });
+      });
+
+      // Página final – onde publicar
+      doc.addPage();
+      y = margin;
+
+      doc.setTextColor(124, 92, 255);
+      doc.setFontSize(18);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Onde publicar e vender', margin, y);
+      y += 15;
+
+      const platforms = [
+        ['Amazon KDP', 'Maior alcance global – kdp.amazon.com'],
+        ['Hotmart', 'Ideal para o público brasileiro – hotmart.com'],
+        ['Gumroad', 'Simples e direto – gumroad.com'],
+        ['Apple Books', 'Público premium – authors.apple.com'],
+        ['Google Play Books', 'Android + web – play.google.com/books'],
+        ['Kobo Writing Life', 'Boa alternativa – writinglife.kobo.com']
+      ];
+
+      doc.setFontSize(12);
+      platforms.forEach(([name, desc]) => {
+        doc.setTextColor(30, 30, 40);
+        doc.setFont('helvetica', 'bold');
+        doc.text(name, margin, y);
+        y += 6;
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(80, 80, 90);
+        doc.text(desc, margin, y);
+        y += 12;
+      });
+
+      y += 10;
+      doc.setFontSize(10);
+      doc.setTextColor(140, 140, 150);
+      doc.text('Gerado por AI Ebook Creator · github.com/josemar14/ai-ebook-creator', margin, y);
+
+      const safeName = state.title.replace(/[^a-zA-Z0-9À-ú\s]/g, '').trim().replace(/\s+/g, '_') || 'ebook';
+      doc.save(`${safeName}.pdf`);
     }
   </script>
 </body>
