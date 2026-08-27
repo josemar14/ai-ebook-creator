@@ -1,124 +1,95 @@
 # Celebro.md — Cérebro do projeto AI Ebook Creator
 
-> Para a IA / dev: leia no início de cada sessão longa.  
-> Atualize quando houver decisão de produto, bug fix importante ou mudança de fluxo.  
-> Detalhe de fases → `ROADMAP.md`.  
-> Kit: https://github.com/josemar14/celebro
+> Leia no início de sessões longas. Atualize em decisões de produto.  
+> Fases → `ROADMAP.md` · Kit: https://github.com/josemar14/celebro
 
 **Última atualização:** 2026-08-27  
 **Dono:** josemar14  
 **Repo:** https://github.com/josemar14/ai-ebook-creator  
-**Produção / URL principal:** (ainda não publicado)  
 
 ---
 
-## 1. O que é o produto
+## 1. Produto
 
-App web (HTML) de **criação de e-book com IA**.  
-O usuário envia roteiro/história (texto ou áudio), imagens e outros arquivos.  
-A IA (quando configurada) estrutura, melhora o texto e gera sinopse.  
-Gera PDF completo com capas, capítulos, imagens e sugestões de publicação.
+App web HTML de criação de e-book com IA.  
+Usuário envia texto/áudio/imagens → IA estrutura, gera sinopse + blurb → PDF baixável + sugestões de venda.
 
-**O que o usuário consegue fazer hoje:**
-- Enviar texto, áudio (upload ou gravação) e imagens
-- Configurar API Key (OpenAI / Grok / custom) — salva só no navegador
-- Gerar e-book com IA real (estrutura + sinopse) ou modo local
-- Baixar PDF com imagens e página de “onde vender”
+**Hoje já faz:** gravação de áudio, transcrição Whisper (OpenAI), geração com IA (capítulos + sinopse + texto de vendas), PDF com imagens.
 
 ---
 
-## 2. Stack e arquitetura
+## 2. Stack
 
-| Camada | Tecnologia |
-|--------|------------|
-| Frontend | HTML + CSS + JavaScript (vanilla) |
-| PDF | jsPDF (CDN) |
-| Áudio | Upload + MediaRecorder |
-| IA | OpenAI / xAI Grok / qualquer OpenAI-compatible (via fetch) |
+| Camada | Tech |
+|--------|------|
+| Frontend | HTML + CSS + JS vanilla |
+| PDF | jsPDF |
+| Áudio | MediaRecorder + Whisper API |
+| IA chat | OpenAI / xAI Grok / custom |
 
 **Entrypoint:** `index.html`  
-**Persistência local:** `localStorage` (config de IA)  
+**Config IA:** `localStorage` (nunca no repo)
 
 ---
 
-## 3. Regras que a IA não pode esquecer
+## 3. Regras
 
-### 3.1 Fluxo do usuário
-
-- Aceitar texto e/ou áudio (gravação ou arquivo)
-- Aceitar múltiplas imagens
-- Se tiver API Key → chamar IA para estruturar + gerar sinopse
-- Sem chave ou erro → fallback para detecção local de capítulos
-- Sempre gerar PDF baixável com imagens e plataformas de venda
-- Nunca gravar API Key no repositório (só localStorage do usuário)
-
-### 3.2 Idioma e experiência
-
-- Interface em **português (Brasil)**
-- Manter app simples (HTML primeiro)
+- Texto e/ou áudio; múltiplas imagens
+- Com API Key → IA estrutura + sinopse + blurb
+- Whisper só com OpenAI (ou endpoint compatible)
+- Sem chave / erro → modo local
+- Nunca commitar API keys
+- Interface em PT-BR
 
 ---
 
-## 4. Secrets / env (somente nomes)
+## 4. Secrets (só nomes)
 
-`OPENAI_API_KEY` · `GROK_API_KEY` / `XAI_API_KEY`  
-(As chaves ficam apenas no navegador do usuário via localStorage)
-
----
-
-## 5. Fluxo operacional do usuário
-
-1. (Opcional) Cola API Key e escolhe provedor/modelo → Salvar
-2. Define título + cola roteiro / grava áudio + adiciona imagens
-3. Clica em “Gerar E-book com IA”
-4. Vê estrutura + sinopse (se IA) + stats
-5. Baixa o PDF
-6. Vê sugestões de onde publicar
+`OPENAI_API_KEY` · `XAI_API_KEY` / Grok key  
+(ficam no localStorage do usuário)
 
 ---
 
-## 6. Decisões e bugs recentes
+## 5. Fluxo
 
-| Tema | Decisão / fix |
-|------|----------------|
-| Stack | HTML vanilla + jsPDF + MediaRecorder + fetch IA |
-| IA | Suporte OpenAI, Grok (xAI) e custom OpenAI-compatible |
-| Chave | Só no localStorage do usuário — nunca no repo |
-| Fallback | Modo local se não houver chave ou a API falhar |
-| CORS | Documentado: chamadas diretas do browser podem ser bloqueadas; backend proxy recomendado depois |
-| Fase atual | Fase 2 em andamento (IA real básica pronta) |
+1. (Opcional) Configurar API Key
+2. Título + texto e/ou áudio (+ imagens)
+3. Transcrever áudio (botão Whisper) se quiser
+4. Gerar e-book → preview com sinopse + blurb + caps
+5. Baixar PDF
+6. Ver plataformas de venda
+
+---
+
+## 6. Decisões recentes
+
+| Tema | Decisão |
+|------|--------|
+| Whisper | Botão dedicado + auto-transcribe se só áudio na geração |
+| Blurb | Campo `blurb` no JSON da IA + página no PDF |
+| Fase | Fase 2 quase fechada → próxima = Fase 3 (EPUB) ou proxy |
+| CORS | Documentado; proxy na Fase 4 |
 
 ---
 
 ## 7. Arquivos-chave
 
-| Arquivo | Função |
-|---------|--------|
-| `Celebro.md` | Memória operacional |
-| `ROADMAP.md` | Fases e prioridades |
-| `index.html` | App completo |
-| `README.md` | Documentação |
-| `AGENTS.md` | Multi-agente |
+`index.html` · `Celebro.md` · `ROADMAP.md` · `README.md` · `AGENTS.md`
 
 ---
 
-## 8. Ainda opcional / próximo
+## 8. Próximo
 
-- Transcrição de áudio (Whisper)
-- Backend proxy (CORS + segurança da key)
 - EPUB
+- Backend proxy
 - Deploy
 
 ---
 
-## 9. Como a IA deve trabalhar neste repo
+## 9. Como a IA trabalha aqui
 
-1. Preferir editar arquivos existentes  
-2. Após mudanças de fluxo, atualizar este `Celebro.md`  
-3. Não gravar segredos neste arquivo  
-4. Responder no idioma do usuário (português)  
-5. Consultar `ROADMAP.md` para priorizar  
-
----
-
-*Memória operacional do projeto. Mantenha curto, factual e atualizado.*
+1. Editar arquivos existentes  
+2. Atualizar Celebro após decisões  
+3. Sem secrets no arquivo  
+4. Responder em português  
+5. Seguir ROADMAP  
