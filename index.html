@@ -7,26 +7,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     :root {
-      --bg: #0f0f13;
-      --surface: #1a1a22;
-      --surface2: #24242f;
-      --border: #2e2e3a;
-      --text: #f0f0f5;
-      --muted: #a0a0b0;
-      --accent: #7c5cff;
-      --accent-hover: #6a4aef;
-      --success: #22c55e;
-      --danger: #ef4444;
-      --radius: 14px;
+      --bg: #0f0f13; --surface: #1a1a22; --surface2: #24242f; --border: #2e2e3a;
+      --text: #f0f0f5; --muted: #a0a0b0; --accent: #7c5cff; --accent-hover: #6a4aef;
+      --success: #22c55e; --danger: #ef4444; --radius: 14px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      line-height: 1.5;
-    }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.5; }
     .container { max-width: 960px; margin: 0 auto; padding: 32px 20px 80px; }
     header { text-align: center; margin-bottom: 40px; }
     header h1 {
@@ -35,36 +21,26 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     header p { color: var(--muted); margin-top: 8px; font-size: 1.05rem; }
-    .card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 24px; margin-bottom: 20px;
-    }
-    .card h2 {
-      font-size: 1.15rem; margin-bottom: 16px;
-      display: flex; align-items: center; gap: 8px;
-    }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; }
+    .card h2 { font-size: 1.15rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
     .card h2 span { font-size: 1.3rem; }
     label { display: block; font-size: 0.9rem; color: var(--muted); margin-bottom: 8px; }
     input[type="text"], input[type="password"], select {
-      width: 100%; background: var(--surface2); border: 1px solid var(--border);
-      border-radius: 10px; color: var(--text); padding: 12px 14px;
-      font-size: 0.95rem; font-family: inherit; margin-bottom: 12px;
+      width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
+      color: var(--text); padding: 12px 14px; font-size: 0.95rem; font-family: inherit; margin-bottom: 12px;
     }
     input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
     textarea {
-      width: 100%; min-height: 180px; background: var(--surface2);
-      border: 1px solid var(--border); border-radius: 10px; color: var(--text);
-      padding: 14px; font-size: 0.95rem; resize: vertical; font-family: inherit;
+      width: 100%; min-height: 180px; background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--text); padding: 14px; font-size: 0.95rem; resize: vertical; font-family: inherit;
     }
     .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
     .dropzone {
-      border: 2px dashed var(--border); border-radius: 12px; padding: 28px 20px;
-      text-align: center; cursor: pointer; transition: all 0.2s; background: var(--surface2);
+      border: 2px dashed var(--border); border-radius: 12px; padding: 28px 20px; text-align: center;
+      cursor: pointer; transition: all 0.2s; background: var(--surface2);
     }
-    .dropzone:hover, .dropzone.dragover {
-      border-color: var(--accent); background: rgba(124, 92, 255, 0.08);
-    }
+    .dropzone:hover, .dropzone.dragover { border-color: var(--accent); background: rgba(124, 92, 255, 0.08); }
     .dropzone p { color: var(--muted); font-size: 0.95rem; }
     .dropzone strong { color: var(--accent); }
     input[type="file"] { display: none; }
@@ -75,24 +51,16 @@
     }
     .file-chip img { width: 36px; height: 36px; object-fit: cover; border-radius: 6px; }
     .file-chip .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 160px; }
-    .file-chip button {
-      background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1.1rem;
-    }
+    .file-chip button { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1.1rem; }
     .file-chip button:hover { color: var(--danger); }
     .record-controls { display: flex; align-items: center; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
-    .rec-indicator {
-      display: none; align-items: center; gap: 8px; color: var(--danger); font-size: 0.9rem; font-weight: 600;
-    }
+    .rec-indicator { display: none; align-items: center; gap: 8px; color: var(--danger); font-size: 0.9rem; font-weight: 600; }
     .rec-indicator.active { display: flex; }
-    .rec-dot {
-      width: 10px; height: 10px; background: var(--danger); border-radius: 50%;
-      animation: blink 1s infinite;
-    }
+    .rec-dot { width: 10px; height: 10px; background: var(--danger); border-radius: 50%; animation: blink 1s infinite; }
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
     button.primary {
-      background: var(--accent); color: white; border: none; border-radius: 10px;
-      padding: 14px 28px; font-size: 1rem; font-weight: 600; cursor: pointer;
-      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: white; border: none; border-radius: 10px; padding: 14px 28px;
+      font-size: 1rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
     }
     button.primary:hover { background: var(--accent-hover); }
     button.primary:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -102,34 +70,30 @@
     }
     button.secondary:hover { border-color: var(--accent); }
     button.danger {
-      background: rgba(239, 68, 68, 0.15); color: var(--danger);
-      border: 1px solid var(--danger); border-radius: 10px; padding: 12px 20px;
-      font-size: 0.95rem; cursor: pointer;
+      background: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid var(--danger);
+      border-radius: 10px; padding: 12px 20px; font-size: 0.95rem; cursor: pointer;
     }
-    #result { display: none; }
-    #result.visible { display: block; }
+    #result { display: none; } #result.visible { display: block; }
     .status { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; font-size: 0.95rem; }
     .spinner {
-      width: 18px; height: 18px; border: 2px solid var(--border);
-      border-top-color: var(--accent); border-radius: 50%;
-      animation: spin 0.7s linear infinite;
+      width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--accent);
+      border-radius: 50%; animation: spin 0.7s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
     .chapter {
-      background: var(--surface2); border-radius: 10px; padding: 16px 18px;
-      margin-bottom: 12px; border-left: 3px solid var(--accent);
+      background: var(--surface2); border-radius: 10px; padding: 16px 18px; margin-bottom: 12px;
+      border-left: 3px solid var(--accent);
     }
     .chapter h3 { font-size: 1rem; margin-bottom: 6px; }
     .chapter p { color: var(--muted); font-size: 0.9rem; white-space: pre-wrap; }
     .chapter .meta { font-size: 0.8rem; color: var(--accent); margin-top: 8px; }
-    .synopsis {
+    .synopsis, .blurb {
       background: rgba(124, 92, 255, 0.1); border: 1px solid rgba(124, 92, 255, 0.3);
-      border-radius: 10px; padding: 16px; margin-bottom: 20px;
+      border-radius: 10px; padding: 16px; margin-bottom: 16px;
     }
-    .synopsis h3 { margin-bottom: 8px; color: var(--accent); }
+    .synopsis h3, .blurb h3 { margin-bottom: 8px; color: var(--accent); font-size: 1rem; }
     .platforms {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 12px; margin-top: 16px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-top: 16px;
     }
     .platform {
       background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
@@ -139,14 +103,11 @@
     .platform strong { display: block; margin-bottom: 4px; }
     .platform span { font-size: 0.8rem; color: var(--muted); }
     .download-area { margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap; }
-    .stats {
-      display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;
-      font-size: 0.9rem; color: var(--muted);
-    }
+    .stats { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; font-size: 0.9rem; color: var(--muted); }
     .stats span {
       background: var(--surface2); padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border);
     }
-    .hint { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+    .hint { font-size: 0.8rem; color: var(--muted); margin-top: 6px; }
     .ai-badge {
       display: inline-block; background: rgba(124, 92, 255, 0.2); color: var(--accent);
       font-size: 0.75rem; padding: 2px 8px; border-radius: 6px; margin-left: 8px;
@@ -162,7 +123,6 @@
       <p>Envie seu roteiro, áudio e imagens. A IA organiza tudo e gera o e-book.</p>
     </header>
 
-    <!-- Configuração de IA -->
     <div class="card">
       <h2><span>🤖</span> Configuração de IA <span class="ai-badge" id="aiStatus">Modo local</span></h2>
       <div class="row">
@@ -175,7 +135,7 @@
           </select>
         </div>
         <div>
-          <label for="aiModel">Modelo</label>
+          <label for="aiModel">Modelo (chat)</label>
           <input type="text" id="aiModel" placeholder="gpt-4o-mini / grok-2" value="gpt-4o-mini" />
         </div>
       </div>
@@ -183,94 +143,83 @@
       <input type="password" id="apiKey" placeholder="sk-... ou xai-..." />
       <div class="row">
         <div>
-          <label for="customBase">Base URL (só para Custom)</label>
+          <label for="customBase">Base URL (só Custom)</label>
           <input type="text" id="customBase" placeholder="https://api.exemplo.com/v1" />
         </div>
-        <div style="display:flex;align-items:flex-end;gap:8px">
+        <div style="display:flex;align-items:flex-end">
           <button class="secondary" onclick="saveAIConfig()" style="width:100%">Salvar configuração</button>
         </div>
       </div>
-      <p class="hint">Sem chave → funciona em modo local. Com chave → a IA estrutura, melhora e gera sinopse.</p>
+      <p class="hint">Whisper (transcrição) funciona com chave OpenAI. Grok/xAI usa só o chat por enquanto.</p>
     </div>
 
-    <!-- Título -->
     <div class="card">
       <h2><span>📖</span> Título do E-book</h2>
       <input type="text" id="bookTitle" placeholder="Ex: A Jornada do Herói" value="Meu E-book" />
     </div>
 
-    <!-- Texto -->
     <div class="card">
       <h2><span>📝</span> Roteiro / História (texto)</h2>
-      <label for="storyText">Cole ou digite o conteúdo principal</label>
-      <textarea id="storyText" placeholder="Ex:\nCapítulo 1 – O início\n\nEra uma vez...\n\nCapítulo 2 – O conflito\n\nDe repente..."></textarea>
+      <label for="storyText">Cole ou digite o conteúdo (ou use a transcrição do áudio)</label>
+      <textarea id="storyText" placeholder="Ex:\nCapítulo 1 – O início\n\nEra uma vez..."></textarea>
     </div>
 
-    <!-- Áudio -->
     <div class="card">
       <h2><span>🎤</span> Áudio (opcional)</h2>
       <div class="dropzone" id="audioDropzone">
-        <p>Arraste um arquivo de áudio aqui ou <strong>clique para selecionar</strong></p>
+        <p>Arraste um arquivo de áudio ou <strong>clique para selecionar</strong></p>
         <p style="font-size:0.8rem;margin-top:6px">MP3, WAV, M4A, OGG, WEBM</p>
         <input type="file" id="audioInput" accept="audio/*" />
       </div>
       <div class="record-controls">
         <button class="secondary" id="recordBtn" onclick="toggleRecording()">🔴 Gravar áudio</button>
+        <button class="secondary" id="transcribeBtn" onclick="transcribeAudio()" style="display:none">📝 Transcrever com Whisper</button>
         <div class="rec-indicator" id="recIndicator">
           <div class="rec-dot"></div>
           <span>Gravando… <span id="recTime">0:00</span></span>
         </div>
       </div>
       <div class="file-list" id="audioList"></div>
-      <p class="hint">Transcrição automática de áudio chega na próxima melhoria (precisa de Whisper/API).</p>
+      <p class="hint" id="audioHint">Com chave OpenAI você pode transcrever o áudio automaticamente.</p>
     </div>
 
-    <!-- Imagens -->
     <div class="card">
       <h2><span>🖼️</span> Imagens</h2>
       <div class="dropzone" id="imageDropzone">
-        <p>Arraste imagens aqui ou <strong>clique para selecionar</strong></p>
-        <p style="font-size:0.8rem;margin-top:6px">JPG, PNG, WEBP</p>
+        <p>Arraste imagens ou <strong>clique para selecionar</strong></p>
         <input type="file" id="imageInput" accept="image/*" multiple />
       </div>
       <div class="file-list" id="imageList"></div>
     </div>
 
-    <!-- Outros -->
     <div class="card">
       <h2><span>📎</span> Outros arquivos (opcional)</h2>
       <div class="dropzone" id="otherDropzone">
-        <p>PDFs, documentos, anotações…</p>
+        <p>PDFs, documentos…</p>
         <input type="file" id="otherInput" multiple />
       </div>
       <div class="file-list" id="otherList"></div>
     </div>
 
-    <!-- Ação -->
     <div class="card" style="text-align:center">
-      <button class="primary" id="generateBtn" onclick="generateEbook()">
-        ✨ Gerar E-book com IA
-      </button>
-      <p style="color:var(--muted);font-size:0.85rem;margin-top:12px" id="generateHint">
-        Modo local ativo. Adicione uma API Key acima para usar IA de verdade.
-      </p>
+      <button class="primary" id="generateBtn" onclick="generateEbook()">✨ Gerar E-book com IA</button>
+      <p style="color:var(--muted);font-size:0.85rem;margin-top:12px" id="generateHint">Modo local ativo.</p>
     </div>
 
-    <!-- Resultado -->
     <div class="card" id="result">
       <h2><span>📚</span> Resultado</h2>
-      <div class="status" id="status">
-        <div class="spinner"></div>
-        <span>Processando…</span>
-      </div>
-
+      <div class="status" id="status"><div class="spinner"></div><span>Processando…</span></div>
       <div id="ebookContent" style="display:none">
         <div class="stats" id="stats"></div>
         <div class="synopsis" id="synopsisBox" style="display:none">
-          <h3>Sinopse gerada pela IA</h3>
+          <h3>Sinopse</h3>
           <p id="synopsisText"></p>
         </div>
-        <h3 style="margin-bottom:14px;font-size:1.1rem">Estrutura gerada</h3>
+        <div class="blurb" id="blurbBox" style="display:none">
+          <h3>Texto de vendas (blurb)</h3>
+          <p id="blurbText"></p>
+        </div>
+        <h3 style="margin-bottom:14px;font-size:1.1rem">Estrutura</h3>
         <div id="chapters"></div>
         <div class="download-area">
           <button class="primary" onclick="downloadPDF()">⬇ Baixar PDF</button>
@@ -287,31 +236,19 @@
       </div>
     </div>
 
-    <footer>
-      AI Ebook Creator · <a href="https://github.com/josemar14/ai-ebook-creator" target="_blank">GitHub</a>
-    </footer>
+    <footer>AI Ebook Creator · <a href="https://github.com/josemar14/ai-ebook-creator" target="_blank">GitHub</a></footer>
   </div>
 
   <script>
     const { jsPDF } = window.jspdf;
 
     const state = {
-      audio: null,
-      images: [],
-      imageDataUrls: [],
-      others: [],
-      chapters: [],
-      synopsis: '',
-      title: 'Meu E-book',
-      mediaRecorder: null,
-      recordedChunks: [],
-      isRecording: false,
-      recStart: null,
-      recTimer: null,
-      usedAI: false
+      audio: null, images: [], imageDataUrls: [], others: [],
+      chapters: [], synopsis: '', blurb: '', title: 'Meu E-book',
+      mediaRecorder: null, recordedChunks: [], isRecording: false,
+      recStart: null, recTimer: null, usedAI: false
     };
 
-    // === AI Config ===
     function loadAIConfig() {
       const cfg = JSON.parse(localStorage.getItem('aiEbookConfig') || '{}');
       if (cfg.provider) document.getElementById('aiProvider').value = cfg.provider;
@@ -322,13 +259,12 @@
     }
 
     function saveAIConfig() {
-      const cfg = {
+      localStorage.setItem('aiEbookConfig', JSON.stringify({
         provider: document.getElementById('aiProvider').value,
         model: document.getElementById('aiModel').value.trim(),
         apiKey: document.getElementById('apiKey').value.trim(),
         customBase: document.getElementById('customBase').value.trim()
-      };
-      localStorage.setItem('aiEbookConfig', JSON.stringify(cfg));
+      }));
       updateAIStatus();
       alert('Configuração salva neste navegador.');
     }
@@ -339,15 +275,24 @@
       const hint = document.getElementById('generateHint');
       if (key) {
         badge.textContent = 'IA conectada';
-        badge.style.background = 'rgba(34, 197, 94, 0.2)';
+        badge.style.background = 'rgba(34,197,94,0.2)';
         badge.style.color = 'var(--success)';
-        hint.textContent = 'IA real ativa. A história será estruturada e melhorada automaticamente.';
+        hint.textContent = 'IA real ativa — estrutura, sinopse e texto de vendas.';
       } else {
         badge.textContent = 'Modo local';
-        badge.style.background = 'rgba(124, 92, 255, 0.2)';
+        badge.style.background = 'rgba(124,92,255,0.2)';
         badge.style.color = 'var(--accent)';
-        hint.textContent = 'Modo local ativo. Adicione uma API Key acima para usar IA de verdade.';
+        hint.textContent = 'Modo local. Adicione API Key para IA real + Whisper.';
       }
+      updateTranscribeBtn();
+    }
+
+    function updateTranscribeBtn() {
+      const btn = document.getElementById('transcribeBtn');
+      const hasAudio = !!state.audio;
+      const hasKey = !!document.getElementById('apiKey').value.trim();
+      const provider = document.getElementById('aiProvider').value;
+      btn.style.display = (hasAudio && hasKey && (provider === 'openai' || provider === 'custom')) ? 'inline-flex' : 'none';
     }
 
     document.getElementById('apiKey').addEventListener('input', updateAIStatus);
@@ -355,26 +300,32 @@
       const p = document.getElementById('aiProvider').value;
       if (p === 'grok') document.getElementById('aiModel').value = 'grok-2';
       else if (p === 'openai') document.getElementById('aiModel').value = 'gpt-4o-mini';
+      updateAIStatus();
     });
 
-    function getAIEndpoint() {
-      const provider = document.getElementById('aiProvider').value;
-      if (provider === 'openai') return 'https://api.openai.com/v1/chat/completions';
-      if (provider === 'grok') return 'https://api.x.ai/v1/chat/completions';
+    function getChatEndpoint() {
+      const p = document.getElementById('aiProvider').value;
+      if (p === 'openai') return 'https://api.openai.com/v1/chat/completions';
+      if (p === 'grok') return 'https://api.x.ai/v1/chat/completions';
       return (document.getElementById('customBase').value.trim() || 'https://api.openai.com/v1') + '/chat/completions';
+    }
+
+    function getWhisperEndpoint() {
+      const p = document.getElementById('aiProvider').value;
+      if (p === 'custom') {
+        const base = document.getElementById('customBase').value.trim() || 'https://api.openai.com/v1';
+        return base.replace(/\/$/, '') + '/audio/transcriptions';
+      }
+      return 'https://api.openai.com/v1/audio/transcriptions';
     }
 
     async function callAI(systemPrompt, userPrompt) {
       const apiKey = document.getElementById('apiKey').value.trim();
       const model = document.getElementById('aiModel').value.trim() || 'gpt-4o-mini';
       if (!apiKey) throw new Error('Sem API Key');
-
-      const res = await fetch(getAIEndpoint(), {
+      const res = await fetch(getChatEndpoint(), {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`
-        },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
         body: JSON.stringify({
           model,
           messages: [
@@ -384,28 +335,63 @@
           temperature: 0.7
         })
       });
-
-      if (!res.ok) {
-        const err = await res.text();
-        throw new Error(`API ${res.status}: ${err.slice(0, 200)}`);
-      }
-
+      if (!res.ok) throw new Error(`API ${res.status}: ${(await res.text()).slice(0, 180)}`);
       const data = await res.json();
       return data.choices?.[0]?.message?.content || '';
     }
 
-    // === Upload helpers (same as before) ===
-    function setupDropzone(dropzoneId, inputId, type) {
-      const dropzone = document.getElementById(dropzoneId);
-      const input = document.getElementById(inputId);
-      dropzone.addEventListener('click', () => input.click());
-      dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
-      dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
-      dropzone.addEventListener('drop', (e) => {
-        e.preventDefault(); dropzone.classList.remove('dragover');
-        handleFiles(e.dataTransfer.files, type);
-      });
-      input.addEventListener('change', (e) => handleFiles(e.target.files, type));
+    async function transcribeAudio() {
+      if (!state.audio) { alert('Nenhum áudio carregado.'); return; }
+      const apiKey = document.getElementById('apiKey').value.trim();
+      if (!apiKey) { alert('Precisa de API Key OpenAI (ou compatible) para Whisper.'); return; }
+
+      const btn = document.getElementById('transcribeBtn');
+      btn.disabled = true;
+      btn.textContent = 'Transcrevendo…';
+
+      try {
+        const form = new FormData();
+        const file = state.audio instanceof File
+          ? state.audio
+          : new File([state.audio], state.audio.name || 'audio.webm', { type: state.audio.type || 'audio/webm' });
+        form.append('file', file);
+        form.append('model', 'whisper-1');
+        form.append('language', 'pt');
+
+        const res = await fetch(getWhisperEndpoint(), {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${apiKey}` },
+          body: form
+        });
+
+        if (!res.ok) throw new Error(`Whisper ${res.status}: ${(await res.text()).slice(0, 180)}`);
+        const data = await res.json();
+        const transcript = data.text || '';
+
+        if (!transcript) throw new Error('Transcrição vazia');
+
+        const ta = document.getElementById('storyText');
+        ta.value = ta.value.trim()
+          ? ta.value.trim() + '\n\n--- Transcrição do áudio ---\n\n' + transcript
+          : transcript;
+
+        alert('Transcrição concluída! O texto foi adicionado ao campo de roteiro.');
+      } catch (err) {
+        console.error(err);
+        alert('Erro na transcrição: ' + err.message + '\n\n(Se for CORS, será necessário um backend proxy.)');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '📝 Transcrever com Whisper';
+      }
+    }
+
+    function setupDropzone(id, inputId, type) {
+      const dz = document.getElementById(id), input = document.getElementById(inputId);
+      dz.addEventListener('click', () => input.click());
+      dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragover'); });
+      dz.addEventListener('dragleave', () => dz.classList.remove('dragover'));
+      dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('dragover'); handleFiles(e.dataTransfer.files, type); });
+      input.addEventListener('change', e => handleFiles(e.target.files, type));
     }
 
     function handleFiles(files, type) {
@@ -415,12 +401,12 @@
       } else if (type === 'image') {
         Array.from(files).forEach(f => {
           state.images.push(f);
-          const reader = new FileReader();
-          reader.onload = (e) => state.imageDataUrls.push(e.target.result);
-          reader.readAsDataURL(f);
+          const r = new FileReader();
+          r.onload = e => state.imageDataUrls.push(e.target.result);
+          r.readAsDataURL(f);
         });
         renderImages();
-      } else if (type === 'other') {
+      } else {
         Array.from(files).forEach(f => state.others.push(f));
         renderOthers();
       }
@@ -429,29 +415,28 @@
     function renderAudio() {
       const list = document.getElementById('audioList');
       list.innerHTML = '';
-      if (!state.audio) return;
+      if (!state.audio) { updateTranscribeBtn(); return; }
       const chip = document.createElement('div');
       chip.className = 'file-chip';
       chip.innerHTML = `<span class="name">🎤 ${state.audio.name || 'Áudio gravado'}</span><button onclick="removeAudio()">×</button>`;
       list.appendChild(chip);
       if (state.audio instanceof Blob) {
-        const audio = document.createElement('audio');
-        audio.controls = true;
-        audio.src = URL.createObjectURL(state.audio);
-        audio.style.width = '100%';
-        audio.style.marginTop = '10px';
-        list.appendChild(audio);
+        const a = document.createElement('audio');
+        a.controls = true; a.src = URL.createObjectURL(state.audio);
+        a.style.cssText = 'width:100%;margin-top:10px';
+        list.appendChild(a);
       }
+      updateTranscribeBtn();
     }
     function removeAudio() { state.audio = null; document.getElementById('audioInput').value = ''; renderAudio(); }
 
     function renderImages() {
       const list = document.getElementById('imageList');
       list.innerHTML = '';
-      state.images.forEach((file, i) => {
+      state.images.forEach((f, i) => {
         const chip = document.createElement('div');
         chip.className = 'file-chip';
-        chip.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="" /><span class="name">${file.name}</span><button onclick="removeImage(${i})">×</button>`;
+        chip.innerHTML = `<img src="${URL.createObjectURL(f)}" alt="" /><span class="name">${f.name}</span><button onclick="removeImage(${i})">×</button>`;
         list.appendChild(chip);
       });
     }
@@ -460,10 +445,10 @@
     function renderOthers() {
       const list = document.getElementById('otherList');
       list.innerHTML = '';
-      state.others.forEach((file, i) => {
+      state.others.forEach((f, i) => {
         const chip = document.createElement('div');
         chip.className = 'file-chip';
-        chip.innerHTML = `<span class="name">📄 ${file.name}</span><button onclick="removeOther(${i})">×</button>`;
+        chip.innerHTML = `<span class="name">📄 ${f.name}</span><button onclick="removeOther(${i})">×</button>`;
         list.appendChild(chip);
       });
     }
@@ -475,10 +460,10 @@
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         state.recordedChunks = [];
         state.mediaRecorder = new MediaRecorder(stream);
-        state.mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) state.recordedChunks.push(e.data); };
+        state.mediaRecorder.ondataavailable = e => { if (e.data.size) state.recordedChunks.push(e.data); };
         state.mediaRecorder.onstop = () => {
           const blob = new Blob(state.recordedChunks, { type: 'audio/webm' });
-          blob.name = 'gravacao_' + new Date().toISOString().slice(0,19).replace(/:/g,'-') + '.webm';
+          blob.name = 'gravacao_' + Date.now() + '.webm';
           state.audio = blob;
           renderAudio();
           stream.getTracks().forEach(t => t.stop());
@@ -486,17 +471,14 @@
         state.mediaRecorder.start();
         state.isRecording = true;
         state.recStart = Date.now();
-        document.getElementById('recordBtn').textContent = '⏹ Parar gravação';
+        document.getElementById('recordBtn').textContent = '⏹ Parar';
         document.getElementById('recordBtn').classList.add('danger');
-        document.getElementById('recordBtn').classList.remove('secondary');
         document.getElementById('recIndicator').classList.add('active');
         state.recTimer = setInterval(() => {
-          const sec = Math.floor((Date.now() - state.recStart) / 1000);
-          document.getElementById('recTime').textContent = `${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`;
+          const s = Math.floor((Date.now() - state.recStart) / 1000);
+          document.getElementById('recTime').textContent = `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
         }, 200);
-      } catch (err) {
-        alert('Não foi possível acessar o microfone.');
-      }
+      } catch { alert('Sem acesso ao microfone.'); }
     }
 
     function stopRecording() {
@@ -506,7 +488,6 @@
       clearInterval(state.recTimer);
       document.getElementById('recordBtn').textContent = '🔴 Gravar áudio';
       document.getElementById('recordBtn').classList.remove('danger');
-      document.getElementById('recordBtn').classList.add('secondary');
       document.getElementById('recIndicator').classList.remove('active');
     }
 
@@ -517,14 +498,12 @@
 
     function detectChapters(text) {
       const lines = text.split(/\n+/).map(l => l.trim()).filter(Boolean);
-      if (!lines.length) return [{ title: 'Capítulo 1 – Conteúdo a partir do áudio', body: 'A IA irá transcrever o áudio e estruturar a história automaticamente.' }];
-      const chapters = [];
-      let current = null;
-      const chapterRegex = /^(capítulo|capitulo|chapter|parte|seção|secao)\s*\d+/i;
-      const numberedRegex = /^\d+[\.)]\s+/;
+      if (!lines.length) return [{ title: 'Capítulo 1', body: 'Conteúdo a partir do áudio — transcreva primeiro.' }];
+      const chapters = []; let current = null;
+      const re = /^(capítulo|capitulo|chapter|parte|seção|secao)\s*\d+/i;
+      const num = /^\d+[\.)]\s+/;
       lines.forEach(line => {
-        const isTitle = chapterRegex.test(line) || (numberedRegex.test(line) && line.length < 80);
-        if (isTitle) {
+        if (re.test(line) || (num.test(line) && line.length < 80)) {
           if (current) chapters.push(current);
           current = { title: line, body: '' };
         } else {
@@ -533,127 +512,107 @@
         }
       });
       if (current) chapters.push(current);
-      if (chapters.length === 1 && chapters[0].body.length > 1200) {
-        const parts = chapters[0].body.split(/\n\n+/);
-        const newCh = []; let buf = ''; let num = 1;
-        parts.forEach(p => {
-          buf += (buf ? '\n\n' : '') + p;
-          if (buf.length > 600) { newCh.push({ title: `Capítulo ${num}`, body: buf }); num++; buf = ''; }
-        });
-        if (buf) newCh.push({ title: `Capítulo ${num}`, body: buf });
-        return newCh.length ? newCh : chapters;
-      }
       return chapters;
     }
 
     async function processWithAI(text, title) {
-      const system = `Você é um editor profissional de e-books. Sua tarefa é organizar e melhorar o conteúdo de um livro.
-Responda APENAS com JSON válido no formato:
+      const system = `Você é um editor profissional de e-books em português.
+Responda APENAS com JSON válido:
 {
-  "title": "título melhorado ou original",
-  "synopsis": "sinopse de 2-4 frases atraente",
-  "chapters": [
-    { "title": "Capítulo 1 – Nome", "body": "texto completo do capítulo..." }
-  ]
+  "title": "título",
+  "synopsis": "sinopse de 2-4 frases",
+  "blurb": "texto de vendas curto e persuasivo (3-6 frases) para a página do produto",
+  "chapters": [ { "title": "Capítulo 1 – Nome", "body": "texto..." } ]
 }
-Regras:
-- Mantenha o idioma do texto original (português se for o caso)
-- Melhore clareza e fluidez sem inventar fatos
-- Divida em capítulos lógicos se ainda não estiverem divididos
-- Cada capítulo deve ter título claro
-- Sinopse deve ser comercial e convidativa`;
+Regras: mantenha o idioma; melhore clareza sem inventar fatos; divida em capítulos lógicos; sinopse e blurb devem ser comerciais.`;
 
-      const user = `Título sugerido: ${title}\n\nConteúdo bruto:\n\n${text.slice(0, 12000)}`;
-
-      const raw = await callAI(system, user);
-      // Tenta extrair JSON mesmo se vier com markdown
+      const raw = await callAI(system, `Título: ${title}\n\nConteúdo:\n\n${text.slice(0, 12000)}`);
       const match = raw.match(/\{[\s\S]*\}/);
-      if (!match) throw new Error('Resposta da IA não contém JSON válido');
+      if (!match) throw new Error('JSON inválido da IA');
       return JSON.parse(match[0]);
     }
 
     async function generateEbook() {
-      const text = document.getElementById('storyText').value.trim();
+      let text = document.getElementById('storyText').value.trim();
       const title = document.getElementById('bookTitle').value.trim() || 'Meu E-book';
-      if (!text && !state.audio) {
-        alert('Envie pelo menos um texto ou um áudio.');
-        return;
-      }
+      if (!text && !state.audio) { alert('Envie texto ou áudio.'); return; }
 
-      state.title = title;
-      state.synopsis = '';
-      state.usedAI = false;
+      state.title = title; state.synopsis = ''; state.blurb = ''; state.usedAI = false;
 
       const btn = document.getElementById('generateBtn');
       const result = document.getElementById('result');
       const status = document.getElementById('status');
       const content = document.getElementById('ebookContent');
       const chaptersEl = document.getElementById('chapters');
-      const statsEl = document.getElementById('stats');
-      const synopsisBox = document.getElementById('synopsisBox');
 
       btn.disabled = true;
       result.classList.add('visible');
       status.style.display = 'flex';
       content.style.display = 'none';
       chaptersEl.innerHTML = '';
-      synopsisBox.style.display = 'none';
+      document.getElementById('synopsisBox').style.display = 'none';
+      document.getElementById('blurbBox').style.display = 'none';
 
       const hasKey = !!document.getElementById('apiKey').value.trim();
 
       try {
+        // Auto-transcribe if only audio and OpenAI key
+        if (!text && state.audio && hasKey) {
+          const provider = document.getElementById('aiProvider').value;
+          if (provider === 'openai' || provider === 'custom') {
+            status.innerHTML = '<div class="spinner"></div><span>Transcrevendo áudio com Whisper…</span>';
+            await transcribeAudio();
+            text = document.getElementById('storyText').value.trim();
+          }
+        }
+
         if (hasKey && text) {
-          status.innerHTML = '<div class="spinner"></div><span>IA processando e estruturando o e-book…</span>';
-          const aiResult = await processWithAI(text, title);
-          state.chapters = aiResult.chapters || [];
-          state.synopsis = aiResult.synopsis || '';
-          if (aiResult.title) state.title = aiResult.title;
+          status.innerHTML = '<div class="spinner"></div><span>IA estruturando e-book + sinopse + texto de vendas…</span>';
+          const ai = await processWithAI(text, title);
+          state.chapters = ai.chapters || [];
+          state.synopsis = ai.synopsis || '';
+          state.blurb = ai.blurb || '';
+          if (ai.title) state.title = ai.title;
           state.usedAI = true;
         } else {
           status.innerHTML = '<div class="spinner"></div><span>Processando localmente…</span>';
-          await new Promise(r => setTimeout(r, 1200));
-          state.chapters = detectChapters(text);
+          await new Promise(r => setTimeout(r, 1000));
+          state.chapters = detectChapters(text || '');
         }
 
-        // Render
-        const totalWords = state.chapters.reduce((a, c) => a + (c.body || '').split(/\s+/).filter(Boolean).length, 0);
-        statsEl.innerHTML = `
-          <span>📖 ${state.chapters.length} capítulo${state.chapters.length !== 1 ? 's' : ''}</span>
-          <span>✍️ ~${totalWords} palavras</span>
-          <span>🖼️ ${state.images.length} imagem${state.images.length !== 1 ? 'ns' : ''}</span>
+        const words = state.chapters.reduce((a, c) => a + (c.body || '').split(/\s+/).filter(Boolean).length, 0);
+        document.getElementById('stats').innerHTML = `
+          <span>📖 ${state.chapters.length} caps</span>
+          <span>✍️ ~${words} palavras</span>
+          <span>🖼️ ${state.images.length} imgs</span>
           ${state.audio ? '<span>🎤 Áudio</span>' : ''}
-          <span>${state.usedAI ? '🤖 IA real' : '⚙️ Modo local'}</span>
-        `;
+          <span>${state.usedAI ? '🤖 IA' : '⚙️ Local'}</span>`;
 
         if (state.synopsis) {
           document.getElementById('synopsisText').textContent = state.synopsis;
-          synopsisBox.style.display = 'block';
+          document.getElementById('synopsisBox').style.display = 'block';
+        }
+        if (state.blurb) {
+          document.getElementById('blurbText').textContent = state.blurb;
+          document.getElementById('blurbBox').style.display = 'block';
         }
 
         state.chapters.forEach(ch => {
           const div = document.createElement('div');
           div.className = 'chapter';
-          const words = (ch.body || '').split(/\s+/).filter(Boolean).length;
-          const preview = (ch.body || '').length > 220 ? ch.body.slice(0, 220) + '…' : (ch.body || '');
-          div.innerHTML = `<h3>${ch.title}</h3><p>${preview || '—'}</p><div class="meta">${words} palavras</div>`;
+          const w = (ch.body || '').split(/\s+/).filter(Boolean).length;
+          const prev = (ch.body || '').length > 220 ? ch.body.slice(0, 220) + '…' : (ch.body || '—');
+          div.innerHTML = `<h3>${ch.title}</h3><p>${prev}</p><div class="meta">${w} palavras</div>`;
           chaptersEl.appendChild(div);
         });
-
-        if (state.images.length) {
-          const div = document.createElement('div');
-          div.className = 'chapter';
-          div.innerHTML = `<h3>Ilustrações (${state.images.length})</h3><p>Incluídas no PDF em páginas dedicadas.</p>`;
-          chaptersEl.appendChild(div);
-        }
 
         status.innerHTML = `<span style="color:var(--success)">✓ E-book ${state.usedAI ? 'gerado pela IA' : 'estruturado'} com sucesso</span>`;
         content.style.display = 'block';
       } catch (err) {
         console.error(err);
-        status.innerHTML = `<span style="color:var(--danger)">Erro na IA: ${err.message}. Usando modo local.</span>`;
-        state.chapters = detectChapters(text);
+        status.innerHTML = `<span style="color:var(--danger)">Erro: ${err.message}. Usando modo local.</span>`;
+        state.chapters = detectChapters(text || '');
         state.usedAI = false;
-        // re-render básico
         chaptersEl.innerHTML = '';
         state.chapters.forEach(ch => {
           const div = document.createElement('div');
@@ -670,114 +629,73 @@ Regras:
 
     function downloadPDF() {
       if (!state.chapters.length) { alert('Gere o e-book primeiro.'); return; }
-
       const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-      const pageWidth = doc.internal.pageSize.getWidth();
-      const pageHeight = doc.internal.pageSize.getHeight();
-      const margin = 20;
-      const maxWidth = pageWidth - margin * 2;
+      const W = doc.internal.pageSize.getWidth();
+      const H = doc.internal.pageSize.getHeight();
+      const m = 20, maxW = W - m * 2;
 
-      // Capa
-      doc.setFillColor(15, 15, 19);
-      doc.rect(0, 0, pageWidth, pageHeight, 'F');
-      doc.setTextColor(124, 92, 255);
-      doc.setFontSize(12);
-      doc.text('AI EBOOK CREATOR', pageWidth / 2, 45, { align: 'center' });
-      doc.setTextColor(240, 240, 245);
-      doc.setFontSize(26);
-      doc.setFont('helvetica', 'bold');
-      doc.text(doc.splitTextToSize(state.title, maxWidth - 10), pageWidth / 2, 85, { align: 'center' });
-      doc.setFontSize(11);
-      doc.setFont('helvetica', 'normal');
-      doc.setTextColor(160, 160, 176);
-      doc.text(state.usedAI ? 'Gerado com inteligência artificial' : 'Estruturado localmente', pageWidth / 2, 115, { align: 'center' });
-      doc.text(new Date().toLocaleDateString('pt-BR'), pageWidth / 2, 125, { align: 'center' });
+      doc.setFillColor(15, 15, 19); doc.rect(0, 0, W, H, 'F');
+      doc.setTextColor(124, 92, 255); doc.setFontSize(12);
+      doc.text('AI EBOOK CREATOR', W / 2, 45, { align: 'center' });
+      doc.setTextColor(240, 240, 245); doc.setFontSize(26); doc.setFont('helvetica', 'bold');
+      doc.text(doc.splitTextToSize(state.title, maxW - 10), W / 2, 85, { align: 'center' });
+      doc.setFontSize(11); doc.setFont('helvetica', 'normal'); doc.setTextColor(160, 160, 176);
+      doc.text(state.usedAI ? 'Gerado com IA' : 'Estruturado localmente', W / 2, 115, { align: 'center' });
+      doc.text(new Date().toLocaleDateString('pt-BR'), W / 2, 125, { align: 'center' });
 
-      // Sinopse
-      if (state.synopsis) {
-        doc.addPage();
-        let y = margin;
-        doc.setTextColor(124, 92, 255);
-        doc.setFontSize(16);
-        doc.setFont('helvetica', 'bold');
-        doc.text('Sinopse', margin, y);
-        y += 12;
-        doc.setTextColor(40, 40, 50);
-        doc.setFontSize(11);
-        doc.setFont('helvetica', 'normal');
-        doc.splitTextToSize(state.synopsis, maxWidth).forEach(line => {
-          doc.text(line, margin, y); y += 6;
+      function addTextPage(heading, body) {
+        if (!body) return;
+        doc.addPage(); let y = m;
+        doc.setTextColor(124, 92, 255); doc.setFontSize(16); doc.setFont('helvetica', 'bold');
+        doc.text(heading, m, y); y += 12;
+        doc.setTextColor(40, 40, 50); doc.setFontSize(11); doc.setFont('helvetica', 'normal');
+        doc.splitTextToSize(body, maxW).forEach(line => {
+          if (y > H - m - 10) { doc.addPage(); y = m; }
+          doc.text(line, m, y); y += 6;
         });
       }
 
-      // Capítulos
+      addTextPage('Sinopse', state.synopsis);
+      addTextPage('Texto de vendas', state.blurb);
+
       state.chapters.forEach(ch => {
-        doc.addPage();
-        let y = margin;
-        doc.setTextColor(124, 92, 255);
-        doc.setFontSize(16);
-        doc.setFont('helvetica', 'bold');
-        const tLines = doc.splitTextToSize(ch.title, maxWidth);
-        doc.text(tLines, margin, y);
-        y += tLines.length * 8 + 6;
-        doc.setDrawColor(124, 92, 255);
-        doc.setLineWidth(0.5);
-        doc.line(margin, y, pageWidth - margin, y);
-        y += 10;
-        doc.setTextColor(40, 40, 50);
-        doc.setFontSize(11);
-        doc.setFont('helvetica', 'normal');
-        doc.splitTextToSize(ch.body || '—', maxWidth).forEach(line => {
-          if (y > pageHeight - margin - 10) { doc.addPage(); y = margin; }
-          doc.text(line, margin, y); y += 6;
+        doc.addPage(); let y = m;
+        doc.setTextColor(124, 92, 255); doc.setFontSize(16); doc.setFont('helvetica', 'bold');
+        const tl = doc.splitTextToSize(ch.title, maxW);
+        doc.text(tl, m, y); y += tl.length * 8 + 6;
+        doc.setDrawColor(124, 92, 255); doc.setLineWidth(0.5);
+        doc.line(m, y, W - m, y); y += 10;
+        doc.setTextColor(40, 40, 50); doc.setFontSize(11); doc.setFont('helvetica', 'normal');
+        doc.splitTextToSize(ch.body || '—', maxW).forEach(line => {
+          if (y > H - m - 10) { doc.addPage(); y = m; }
+          doc.text(line, m, y); y += 6;
         });
       });
 
-      // Imagens
-      state.imageDataUrls.forEach((dataUrl, idx) => {
+      state.imageDataUrls.forEach((url, idx) => {
         try {
           doc.addPage();
-          const props = doc.getImageProperties(dataUrl);
-          let imgW = pageWidth - margin * 2;
-          let imgH = (props.height * imgW) / props.width;
-          const maxH = pageHeight - margin * 2 - 20;
-          if (imgH > maxH) { imgH = maxH; imgW = (props.width * imgH) / props.height; }
-          doc.setTextColor(124, 92, 255);
-          doc.setFontSize(11);
-          doc.text(`Ilustração ${idx + 1}`, pageWidth / 2, margin, { align: 'center' });
-          doc.addImage(dataUrl, 'JPEG', (pageWidth - imgW) / 2, margin + 10, imgW, imgH);
+          const props = doc.getImageProperties(url);
+          let iw = W - m * 2, ih = (props.height * iw) / props.width;
+          const maxH = H - m * 2 - 20;
+          if (ih > maxH) { ih = maxH; iw = (props.width * ih) / props.height; }
+          doc.setTextColor(124, 92, 255); doc.setFontSize(11);
+          doc.text(`Ilustração ${idx + 1}`, W / 2, m, { align: 'center' });
+          doc.addImage(url, 'JPEG', (W - iw) / 2, m + 10, iw, ih);
         } catch (e) { console.warn(e); }
       });
 
-      // Publicação
-      doc.addPage();
-      let y = margin;
-      doc.setTextColor(124, 92, 255);
-      doc.setFontSize(18);
-      doc.setFont('helvetica', 'bold');
-      doc.text('Onde publicar e vender', margin, y);
-      y += 15;
-      const platforms = [
-        ['Amazon KDP', 'kdp.amazon.com'],
-        ['Hotmart', 'hotmart.com'],
-        ['Gumroad', 'gumroad.com'],
-        ['Apple Books', 'authors.apple.com'],
-        ['Google Play Books', 'play.google.com/books'],
-        ['Kobo Writing Life', 'writinglife.kobo.com']
-      ];
+      doc.addPage(); let y = m;
+      doc.setTextColor(124, 92, 255); doc.setFontSize(18); doc.setFont('helvetica', 'bold');
+      doc.text('Onde publicar e vender', m, y); y += 15;
+      const plats = [['Amazon KDP','kdp.amazon.com'],['Hotmart','hotmart.com'],['Gumroad','gumroad.com'],['Apple Books','authors.apple.com'],['Google Play Books','play.google.com/books'],['Kobo','writinglife.kobo.com']];
       doc.setFontSize(12);
-      platforms.forEach(([name, url]) => {
-        doc.setTextColor(30, 30, 40);
-        doc.setFont('helvetica', 'bold');
-        doc.text(name, margin, y); y += 6;
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(80, 80, 90);
-        doc.text(url, margin, y); y += 12;
+      plats.forEach(([n, u]) => {
+        doc.setTextColor(30, 30, 40); doc.setFont('helvetica', 'bold'); doc.text(n, m, y); y += 6;
+        doc.setFont('helvetica', 'normal'); doc.setTextColor(80, 80, 90); doc.text(u, m, y); y += 12;
       });
-      y += 8;
-      doc.setFontSize(10);
-      doc.setTextColor(140, 140, 150);
-      doc.text('Gerado por AI Ebook Creator · github.com/josemar14/ai-ebook-creator', margin, y);
+      y += 8; doc.setFontSize(10); doc.setTextColor(140, 140, 150);
+      doc.text('AI Ebook Creator · github.com/josemar14/ai-ebook-creator', m, y);
 
       const safe = state.title.replace(/[^a-zA-Z0-9À-ú\s]/g, '').trim().replace(/\s+/g, '_') || 'ebook';
       doc.save(`${safe}.pdf`);
