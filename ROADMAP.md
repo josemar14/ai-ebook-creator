@@ -16,21 +16,21 @@
 
 ---
 
-## Fase 1 — Core útil (atual)
+## Fase 1 — Core útil ✅ (quase completa)
 
 **Objetivo:** transformar o protótipo em algo que a pessoa já consegue usar de verdade.
 
 - [x] Campo de título do e-book
 - [x] Detecção de capítulos mais inteligente
 - [x] Download de PDF funcional
-- [ ] Gravação de áudio direto no navegador (MediaRecorder)
-- [ ] Incluir imagens no PDF (quando possível)
-- [ ] Preview mais rico dos capítulos
-- [ ] Melhorar capa do PDF (mais opções de estilo)
+- [x] Gravação de áudio direto no navegador (MediaRecorder)
+- [x] Incluir imagens no PDF
+- [x] Preview mais rico dos capítulos (stats + contagem de palavras)
+- [ ] Melhorar capa do PDF (mais opções de estilo) — opcional / polish
 
 ---
 
-## Fase 2 — Inteligência real
+## Fase 2 — Inteligência real ⏳ (próxima)
 
 **Objetivo:** a IA de fato escreve e organiza o conteúdo.
 
