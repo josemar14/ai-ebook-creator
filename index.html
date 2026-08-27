@@ -183,6 +183,38 @@
 
     .file-chip button:hover { color: var(--danger); }
 
+    .record-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .rec-indicator {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      color: var(--danger);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .rec-indicator.active { display: flex; }
+
+    .rec-dot {
+      width: 10px;
+      height: 10px;
+      background: var(--danger);
+      border-radius: 50%;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
     button.primary {
       background: var(--accent);
       color: white;
@@ -213,6 +245,18 @@
     }
 
     button.secondary:hover { border-color: var(--accent); }
+
+    button.danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--danger);
+      border: 1px solid var(--danger);
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    button.danger:hover { background: rgba(239, 68, 68, 0.25); }
 
     #result { display: none; }
     #result.visible { display: block; }
@@ -245,7 +289,8 @@
     }
 
     .chapter h3 { font-size: 1rem; margin-bottom: 6px; }
-    .chapter p { color: var(--muted); font-size: 0.9rem; }
+    .chapter p { color: var(--muted); font-size: 0.9rem; white-space: pre-wrap; }
+    .chapter .meta { font-size: 0.8rem; color: var(--accent); margin-top: 8px; }
 
     .platforms {
       display: grid;
@@ -272,6 +317,22 @@
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
+    }
+
+    .stats {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .stats span {
+      background: var(--surface2);
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
     }
 
     footer {
@@ -312,6 +373,15 @@
         <p style="font-size:0.8rem;margin-top:6px">MP3, WAV, M4A, OGG</p>
         <input type="file" id="audioInput" accept="audio/*" />
       </div>
+
+      <div class="record-controls">
+        <button class="secondary" id="recordBtn" onclick="toggleRecording()">🔴 Gravar áudio</button>
+        <div class="rec-indicator" id="recIndicator">
+          <div class="rec-dot"></div>
+          <span>Gravando… <span id="recTime">0:00</span></span>
+        </div>
+      </div>
+
       <div class="file-list" id="audioList"></div>
     </div>
 
@@ -342,7 +412,7 @@
         ✨ Gerar E-book com IA
       </button>
       <p style="color:var(--muted);font-size:0.85rem;margin-top:12px">
-        A IA organiza a história e gera um PDF pronto para baixar.
+        A IA organiza a história e gera um PDF pronto para baixar (com imagens).
       </p>
     </div>
 
@@ -355,6 +425,8 @@
       </div>
 
       <div id="ebookContent" style="display:none">
+        <div class="stats" id="stats"></div>
+
         <h3 style="margin-bottom:14px;font-size:1.1rem">Estrutura gerada</h3>
         <div id="chapters"></div>
 
@@ -385,9 +457,15 @@
     const state = {
       audio: null,
       images: [],
+      imageDataUrls: [],
       others: [],
       chapters: [],
-      title: 'Meu E-book'
+      title: 'Meu E-book',
+      mediaRecorder: null,
+      recordedChunks: [],
+      isRecording: false,
+      recStart: null,
+      recTimer: null
     };
 
     function setupDropzone(dropzoneId, inputId, type) {
@@ -410,7 +488,14 @@
         state.audio = files[0] || null;
         renderAudio();
       } else if (type === 'image') {
-        Array.from(files).forEach(f => state.images.push(f));
+        Array.from(files).forEach(f => {
+          state.images.push(f);
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            state.imageDataUrls.push(e.target.result);
+          };
+          reader.readAsDataURL(f);
+        });
         renderImages();
       } else if (type === 'other') {
         Array.from(files).forEach(f => state.others.push(f));
@@ -424,8 +509,20 @@
       if (!state.audio) return;
       const chip = document.createElement('div');
       chip.className = 'file-chip';
-      chip.innerHTML = `<span class="name">🎤 ${state.audio.name}</span><button onclick="removeAudio()">×</button>`;
+      const name = state.audio.name || 'Áudio gravado';
+      chip.innerHTML = `<span class="name">🎤 ${name}</span><button onclick="removeAudio()">×</button>`;
       list.appendChild(chip);
+
+      // Player simples
+      if (state.audio instanceof Blob) {
+        const url = URL.createObjectURL(state.audio);
+        const audio = document.createElement('audio');
+        audio.controls = true;
+        audio.src = url;
+        audio.style.width = '100%';
+        audio.style.marginTop = '10px';
+        list.appendChild(audio);
+      }
     }
 
     function removeAudio() {
@@ -448,6 +545,7 @@
 
     function removeImage(index) {
       state.images.splice(index, 1);
+      state.imageDataUrls.splice(index, 1);
       renderImages();
     }
 
@@ -465,6 +563,64 @@
     function removeOther(index) {
       state.others.splice(index, 1);
       renderOthers();
+    }
+
+    // === Gravação de áudio ===
+    async function toggleRecording() {
+      if (state.isRecording) {
+        stopRecording();
+        return;
+      }
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        state.recordedChunks = [];
+        state.mediaRecorder = new MediaRecorder(stream);
+
+        state.mediaRecorder.ondataavailable = (e) => {
+          if (e.data.size > 0) state.recordedChunks.push(e.data);
+        };
+
+        state.mediaRecorder.onstop = () => {
+          const blob = new Blob(state.recordedChunks, { type: 'audio/webm' });
+          blob.name = 'gravacao_' + new Date().toISOString().slice(0,19).replace(/:/g,'-') + '.webm';
+          state.audio = blob;
+          renderAudio();
+          stream.getTracks().forEach(t => t.stop());
+        };
+
+        state.mediaRecorder.start();
+        state.isRecording = true;
+        state.recStart = Date.now();
+
+        document.getElementById('recordBtn').textContent = '⏹ Parar gravação';
+        document.getElementById('recordBtn').classList.add('danger');
+        document.getElementById('recordBtn').classList.remove('secondary');
+        document.getElementById('recIndicator').classList.add('active');
+
+        state.recTimer = setInterval(() => {
+          const sec = Math.floor((Date.now() - state.recStart) / 1000);
+          const m = Math.floor(sec / 60);
+          const s = String(sec % 60).padStart(2, '0');
+          document.getElementById('recTime').textContent = `${m}:${s}`;
+        }, 200);
+
+      } catch (err) {
+        alert('Não foi possível acessar o microfone. Verifique as permissões do navegador.');
+        console.error(err);
+      }
+    }
+
+    function stopRecording() {
+      if (!state.mediaRecorder || !state.isRecording) return;
+      state.mediaRecorder.stop();
+      state.isRecording = false;
+      clearInterval(state.recTimer);
+
+      document.getElementById('recordBtn').textContent = '🔴 Gravar áudio';
+      document.getElementById('recordBtn').classList.remove('danger');
+      document.getElementById('recordBtn').classList.add('secondary');
+      document.getElementById('recIndicator').classList.remove('active');
     }
 
     setupDropzone('audioDropzone', 'audioInput', 'audio');
@@ -500,7 +656,6 @@
 
       if (current) chapters.push(current);
 
-      // Se só encontrou 1 capítulo muito longo, tenta dividir por parágrafos grandes
       if (chapters.length === 1 && chapters[0].body.length > 1200) {
         const parts = chapters[0].body.split(/\n\n+/);
         const newChapters = [];
@@ -510,10 +665,7 @@
         parts.forEach((p) => {
           buf += (buf ? '\n\n' : '') + p;
           if (buf.length > 600) {
-            newChapters.push({
-              title: `Capítulo ${num}`,
-              body: buf
-            });
+            newChapters.push({ title: `Capítulo ${num}`, body: buf });
             num++;
             buf = '';
           }
@@ -540,6 +692,7 @@
       const status = document.getElementById('status');
       const content = document.getElementById('ebookContent');
       const chaptersEl = document.getElementById('chapters');
+      const statsEl = document.getElementById('stats');
 
       btn.disabled = true;
       result.classList.add('visible');
@@ -552,26 +705,44 @@
         const chapters = detectChapters(text);
         state.chapters = chapters;
 
-        if (state.images.length > 0) {
-          chapters.push({
-            title: `Ilustrações (${state.images.length} imagem${state.images.length > 1 ? 'ns' : ''})`,
-            body: 'As imagens enviadas serão posicionadas nos capítulos correspondentes no e-book final.'
-          });
-        }
+        // Stats
+        const totalWords = chapters.reduce((acc, ch) => acc + (ch.body || '').split(/\s+/).filter(Boolean).length, 0);
+        statsEl.innerHTML = `
+          <span>📖 ${chapters.length} capítulo${chapters.length > 1 ? 's' : ''}</span>
+          <span>✍️ ~${totalWords} palavras</span>
+          <span>🖼️ ${state.images.length} imagem${state.images.length !== 1 ? 'ns' : ''}</span>
+          ${state.audio ? '<span>🎤 Áudio incluído</span>' : ''}
+        `;
 
-        chapters.forEach(ch => {
+        chapters.forEach((ch, i) => {
           const div = document.createElement('div');
           div.className = 'chapter';
-          const preview = ch.body.length > 160 ? ch.body.slice(0, 160) + '…' : ch.body;
-          div.innerHTML = `<h3>${ch.title}</h3><p>${preview || 'Conteúdo processado pela IA.'}</p>`;
+          const words = (ch.body || '').split(/\s+/).filter(Boolean).length;
+          const preview = ch.body.length > 220 ? ch.body.slice(0, 220) + '…' : ch.body;
+          div.innerHTML = `
+            <h3>${ch.title}</h3>
+            <p>${preview || 'Conteúdo processado pela IA.'}</p>
+            <div class="meta">${words} palavras</div>
+          `;
           chaptersEl.appendChild(div);
         });
+
+        if (state.images.length > 0) {
+          const div = document.createElement('div');
+          div.className = 'chapter';
+          div.innerHTML = `
+            <h3>Ilustrações (${state.images.length})</h3>
+            <p>As imagens serão incluídas no PDF em páginas dedicadas.</p>
+            <div class="meta">Serão adicionadas ao final do e-book</div>
+          `;
+          chaptersEl.appendChild(div);
+        }
 
         status.innerHTML = '<span style="color:var(--success)">✓ E-book estruturado com sucesso</span>';
         content.style.display = 'block';
         btn.disabled = false;
         result.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 1800);
+      }, 1600);
     }
 
     function downloadPDF() {
@@ -585,7 +756,6 @@
       const pageHeight = doc.internal.pageSize.getHeight();
       const margin = 20;
       const maxWidth = pageWidth - margin * 2;
-      let y = 0;
 
       // Capa
       doc.setFillColor(15, 15, 19);
@@ -607,17 +777,21 @@
       doc.text('Gerado com inteligência artificial', pageWidth / 2, 120, { align: 'center' });
       doc.text(new Date().toLocaleDateString('pt-BR'), pageWidth / 2, 130, { align: 'center' });
 
+      if (state.images.length > 0) {
+        doc.text(`${state.images.length} ilustração${state.images.length > 1 ? 'ões' : ''}`, pageWidth / 2, 145, { align: 'center' });
+      }
+
       // Capítulos
-      state.chapters.forEach((ch, idx) => {
+      state.chapters.forEach((ch) => {
         doc.addPage();
-        y = margin;
+        let y = margin;
 
         doc.setTextColor(124, 92, 255);
         doc.setFontSize(16);
         doc.setFont('helvetica', 'bold');
-        const titleLines = doc.splitTextToSize(ch.title, maxWidth);
-        doc.text(titleLines, margin, y);
-        y += titleLines.length * 8 + 6;
+        const tLines = doc.splitTextToSize(ch.title, maxWidth);
+        doc.text(tLines, margin, y);
+        y += tLines.length * 8 + 6;
 
         doc.setDrawColor(124, 92, 255);
         doc.setLineWidth(0.5);
@@ -640,9 +814,38 @@
         });
       });
 
+      // Páginas de imagens
+      state.imageDataUrls.forEach((dataUrl, idx) => {
+        try {
+          doc.addPage();
+          const imgProps = doc.getImageProperties(dataUrl);
+          const maxImgW = pageWidth - margin * 2;
+          const maxImgH = pageHeight - margin * 2 - 20;
+
+          let imgW = maxImgW;
+          let imgH = (imgProps.height * imgW) / imgProps.width;
+
+          if (imgH > maxImgH) {
+            imgH = maxImgH;
+            imgW = (imgProps.width * imgH) / imgProps.height;
+          }
+
+          const x = (pageWidth - imgW) / 2;
+          const y = margin + 10;
+
+          doc.setTextColor(124, 92, 255);
+          doc.setFontSize(11);
+          doc.text(`Ilustração ${idx + 1}`, pageWidth / 2, margin, { align: 'center' });
+
+          doc.addImage(dataUrl, 'JPEG', x, y, imgW, imgH);
+        } catch (e) {
+          console.warn('Não foi possível adicionar imagem', idx, e);
+        }
+      });
+
       // Página final – onde publicar
       doc.addPage();
-      y = margin;
+      let y = margin;
 
       doc.setTextColor(124, 92, 255);
       doc.setFontSize(18);
