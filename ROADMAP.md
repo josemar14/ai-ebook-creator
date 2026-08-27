@@ -16,9 +16,7 @@
 
 ---
 
-## Fase 1 — Core útil ✅ (quase completa)
-
-**Objetivo:** transformar o protótipo em algo que a pessoa já consegue usar de verdade.
+## Fase 1 — Core útil ✅
 
 - [x] Campo de título do e-book
 - [x] Detecção de capítulos mais inteligente
@@ -26,20 +24,23 @@
 - [x] Gravação de áudio direto no navegador (MediaRecorder)
 - [x] Incluir imagens no PDF
 - [x] Preview mais rico dos capítulos (stats + contagem de palavras)
-- [ ] Melhorar capa do PDF (mais opções de estilo) — opcional / polish
+- [ ] Melhorar capa do PDF (polish opcional)
 
 ---
 
-## Fase 2 — Inteligência real ⏳ (próxima)
+## Fase 2 — Inteligência real 🚧
 
 **Objetivo:** a IA de fato escreve e organiza o conteúdo.
 
-- [ ] Integração com API de IA (Grok / OpenAI / Claude)
-- [ ] Transcrição de áudio automática
-- [ ] Reescrita e expansão de capítulos pela IA
-- [ ] Sugestão automática de títulos e subtítulos
+- [x] Integração com API de IA (OpenAI + Grok/xAI + custom OpenAI-compatible)
+- [x] Configuração de API Key salva no localStorage
+- [x] Estruturação e melhoria de capítulos pela IA
+- [x] Geração de sinopse automática
+- [x] Fallback para modo local se não houver chave ou der erro
+- [ ] Transcrição de áudio automática (Whisper)
+- [ ] Reescrita/expansão mais profunda por capítulo
 - [ ] Posicionamento inteligente de imagens na narrativa
-- [ ] Geração de sinopse e texto de vendas
+- [ ] Geração de texto de vendas / blurb
 
 ---
 
@@ -49,15 +50,15 @@
 - [ ] Template de capa editável
 - [ ] Metadados do e-book (autor, ISBN placeholder, etc.)
 - [ ] Checklist de publicação por plataforma
-- [ ] Links diretos / instruções passo a passo para KDP, Hotmart, etc.
+- [ ] Links diretos / instruções passo a passo
 
 ---
 
 ## Fase 4 — Produto
 
-- [ ] Decidir stack definitiva (manter vanilla ou migrar para framework)
-- [ ] Backend leve (se necessário) para histórico e chaves de API
-- [ ] Login / salvar projetos do usuário
+- [ ] Decidir stack definitiva
+- [ ] Backend leve (proxy de API + histórico) — recomendado por causa de CORS
+- [ ] Login / salvar projetos
 - [ ] Histórico de e-books gerados
 - [ ] Deploy (Vercel / Netlify / Cloudflare Pages)
 
@@ -67,8 +68,8 @@
 
 - [ ] Temas claro/escuro
 - [ ] Múltiplos idiomas
-- [ ] Templates de gênero (ficção, não-ficção, autoajuda…)
-- [ ] Analytics básico de uso
+- [ ] Templates de gênero
+- [ ] Analytics básico
 - [ ] Monetização (se fizer sentido)
 
 ---
@@ -77,11 +78,16 @@
 
 | Tema | Status |
 |------|--------|
-| Modelo de IA preferido | A definir |
-| Backend vs só front-end | Preferência atual: front-end primeiro |
+| Modelo de IA preferido | Usuário escolhe (OpenAI / Grok / custom) |
+| Backend vs só front-end | Front-end primeiro; backend recomendado para CORS e segurança da key |
 | Formato prioritário | PDF primeiro, EPUB depois |
 | Nome final do produto | AI Ebook Creator (provisório) |
 
 ---
+
+## Nota técnica importante
+
+Chamadas diretas à API de OpenAI/xAI a partir do navegador podem ser bloqueadas por **CORS**.  
+Para uso em produção, o ideal é um backend/proxy simples que guarda a chave no servidor.
 
 *Atualize este arquivo sempre que uma fase for concluída ou prioridade mudar.*
