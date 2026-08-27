@@ -5,7 +5,7 @@
 > Detalhe de fases → `ROADMAP.md` (se existir).  
 > Kit: https://github.com/josemar14/celebro
 
-**Última atualização:** 2026-08-24  
+**Última atualização:** 2026-08-27  
 **Dono:** josemar14  
 **Repo:** https://github.com/josemar14/ai-ebook-creator  
 **Produção / URL principal:** (ainda não publicado)  
@@ -31,13 +31,13 @@ No final, a IA sugere plataformas para publicar e vender o e-book.
 
 | Camada | Tecnologia |
 |--------|------------|
-| Frontend | HTML + CSS + JavaScript (vanilla ou leve framework) |
+| Frontend | HTML + CSS + JavaScript (vanilla) |
 | IA | Agente de IA (Grok / OpenAI / Claude — a definir) |
 | Geração de e-book | PDF / EPUB (bibliotecas JS ou backend) |
 | Áudio | Transcrição via IA |
 
-**Entrypoint:** `index.html` (planejado)  
-**Rotas / módulos principais:** (ainda em definição)  
+**Entrypoint:** `index.html`  
+**Rotas / módulos principais:** Single Page App (tudo em index.html por enquanto)  
 
 ---
 
@@ -80,7 +80,8 @@ No final, a IA sugere plataformas para publicar e vender o e-book.
 |------|----------------|
 | Criação do repo | Repo criado em 2026-08-24 com Celebro instalado |
 | Nome do projeto | ai-ebook-creator |
-| Stack inicial | HTML + IA (detalhes a definir) |
+| Stack inicial | HTML + IA (vanilla JS) |
+| Protótipo | index.html criado em 2026-08-27 — UI completa com upload texto/áudio/imagens + mock de geração + sugestões de publicação |
 
 ---
 
@@ -92,7 +93,7 @@ No final, a IA sugere plataformas para publicar e vender o e-book.
 | `AGENTS.md` | Instruções multi-agente |
 | `.cursorrules` | Regras para Cursor |
 | `docs/ai-instructions.md` | Instruções para outros chats |
-| `index.html` | (planejado) Entrypoint do app |
+| `index.html` | Entrypoint do app (protótipo funcional) |
 
 ---
 
@@ -102,6 +103,7 @@ No final, a IA sugere plataformas para publicar e vender o e-book.
 - Escolher formato final prioritário (PDF, EPUB ou ambos)
 - Decidir se terá backend ou só front-end + APIs
 - Login de usuários / histórico de e-books
+- Integração real com API de IA (hoje está mock)
 
 ---
 
