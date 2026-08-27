@@ -16,15 +16,14 @@
 
 App web (HTML) de **criação de e-book com IA**.  
 O usuário envia roteiro/história (texto ou áudio), imagens e outros arquivos.  
-Um agente de IA lê tudo, organiza a história, integra áudio/imagem/texto e gera o e-book completo.  
-No final, a IA sugere plataformas para publicar e vender o e-book.
+A IA (quando configurada) estrutura, melhora o texto e gera sinopse.  
+Gera PDF completo com capas, capítulos, imagens e sugestões de publicação.
 
 **O que o usuário consegue fazer hoje:**
 - Enviar texto, áudio (upload ou gravação) e imagens
-- Detectar capítulos automaticamente
-- Ver preview rico (nº de capítulos, palavras, imagens)
-- Gerar e baixar PDF real **com imagens incluídas**
-- Receber sugestões de canais de venda
+- Configurar API Key (OpenAI / Grok / custom) — salva só no navegador
+- Gerar e-book com IA real (estrutura + sinopse) ou modo local
+- Baixar PDF com imagens e página de “onde vender”
 
 ---
 
@@ -34,11 +33,11 @@ No final, a IA sugere plataformas para publicar e vender o e-book.
 |--------|------------|
 | Frontend | HTML + CSS + JavaScript (vanilla) |
 | PDF | jsPDF (CDN) |
-| Áudio | Upload + MediaRecorder (gravação no navegador) |
-| IA | Agente de IA (Grok / OpenAI / Claude — a definir) |
+| Áudio | Upload + MediaRecorder |
+| IA | OpenAI / xAI Grok / qualquer OpenAI-compatible (via fetch) |
 
 **Entrypoint:** `index.html`  
-**Rotas / módulos principais:** Single Page App (tudo em index.html por enquanto)  
+**Persistência local:** `localStorage` (config de IA)  
 
 ---
 
@@ -46,33 +45,35 @@ No final, a IA sugere plataformas para publicar e vender o e-book.
 
 ### 3.1 Fluxo do usuário
 
-- Aceitar input em texto **ou** áudio (upload ou gravação)
-- Aceitar múltiplas imagens e arquivos
-- Organizar história de forma coerente (capítulos)
-- Incluir imagens no PDF
-- No final sempre sugerir plataformas de venda
-- Gerar PDF baixável
+- Aceitar texto e/ou áudio (gravação ou arquivo)
+- Aceitar múltiplas imagens
+- Se tiver API Key → chamar IA para estruturar + gerar sinopse
+- Sem chave ou erro → fallback para detecção local de capítulos
+- Sempre gerar PDF baixável com imagens e plataformas de venda
+- Nunca gravar API Key no repositório (só localStorage do usuário)
 
 ### 3.2 Idioma e experiência
 
-- Interface e respostas em **português (Brasil)** por padrão
-- Manter o app simples e focado (HTML primeiro)
+- Interface em **português (Brasil)**
+- Manter app simples (HTML primeiro)
 
 ---
 
 ## 4. Secrets / env (somente nomes)
 
-`OPENAI_API_KEY` · `GROK_API_KEY` · (outros a definir)
+`OPENAI_API_KEY` · `GROK_API_KEY` / `XAI_API_KEY`  
+(As chaves ficam apenas no navegador do usuário via localStorage)
 
 ---
 
 ## 5. Fluxo operacional do usuário
 
-1. Usuário define título e envia roteiro (texto ou grava/áudio) + imagens
-2. Sistema detecta capítulos e mostra preview com estatísticas
-3. Usuário revisa a estrutura
-4. Baixa o PDF (com imagens e página de publicação)
-5. Recebe sugestões de onde publicar e vender
+1. (Opcional) Cola API Key e escolhe provedor/modelo → Salvar
+2. Define título + cola roteiro / grava áudio + adiciona imagens
+3. Clica em “Gerar E-book com IA”
+4. Vê estrutura + sinopse (se IA) + stats
+5. Baixa o PDF
+6. Vê sugestões de onde publicar
 
 ---
 
@@ -80,13 +81,12 @@ No final, a IA sugere plataformas para publicar e vender o e-book.
 
 | Tema | Decisão / fix |
 |------|----------------|
-| Criação do repo | 2026-08-24 |
-| Stack | HTML + vanilla JS + jsPDF + MediaRecorder |
-| PDF real | Funcional com capa + capítulos + imagens + plataformas |
-| Gravação de áudio | MediaRecorder implementado (2026-08-27) |
-| Imagens no PDF | Incluídas em páginas dedicadas |
-| Preview | Stats (capítulos, palavras, imagens) |
-| Fase atual | Fase 1 quase completa → próxima = Fase 2 (IA real) |
+| Stack | HTML vanilla + jsPDF + MediaRecorder + fetch IA |
+| IA | Suporte OpenAI, Grok (xAI) e custom OpenAI-compatible |
+| Chave | Só no localStorage do usuário — nunca no repo |
+| Fallback | Modo local se não houver chave ou a API falhar |
+| CORS | Documentado: chamadas diretas do browser podem ser bloqueadas; backend proxy recomendado depois |
+| Fase atual | Fase 2 em andamento (IA real básica pronta) |
 
 ---
 
@@ -96,20 +96,17 @@ No final, a IA sugere plataformas para publicar e vender o e-book.
 |---------|--------|
 | `Celebro.md` | Memória operacional |
 | `ROADMAP.md` | Fases e prioridades |
-| `AGENTS.md` | Instruções multi-agente |
-| `.cursorrules` | Regras para Cursor |
-| `docs/ai-instructions.md` | Instruções para outros chats |
-| `index.html` | App completo (protótipo avançado) |
-| `README.md` | Documentação principal |
+| `index.html` | App completo |
+| `README.md` | Documentação |
+| `AGENTS.md` | Multi-agente |
 
 ---
 
 ## 8. Ainda opcional / próximo
 
-- Melhorar estilos de capa do PDF (polish)
-- **Fase 2:** Integração real com API de IA
-- Transcrição de áudio
-- Exportação EPUB
+- Transcrição de áudio (Whisper)
+- Backend proxy (CORS + segurança da key)
+- EPUB
 - Deploy
 
 ---
@@ -120,7 +117,7 @@ No final, a IA sugere plataformas para publicar e vender o e-book.
 2. Após mudanças de fluxo, atualizar este `Celebro.md`  
 3. Não gravar segredos neste arquivo  
 4. Responder no idioma do usuário (português)  
-5. Consultar `ROADMAP.md` para priorizar tarefas  
+5. Consultar `ROADMAP.md` para priorizar  
 
 ---
 
