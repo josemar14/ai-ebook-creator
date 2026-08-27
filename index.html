@@ -19,9 +19,7 @@
       --danger: #ef4444;
       --radius: 14px;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: var(--bg);
@@ -29,319 +27,131 @@
       min-height: 100vh;
       line-height: 1.5;
     }
-
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 32px 20px 80px;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
+    .container { max-width: 960px; margin: 0 auto; padding: 32px 20px 80px; }
+    header { text-align: center; margin-bottom: 40px; }
     header h1 {
-      font-size: 2.1rem;
-      font-weight: 700;
-      letter-spacing: -0.03em;
+      font-size: 2.1rem; font-weight: 700; letter-spacing: -0.03em;
       background: linear-gradient(135deg, #a78bfa, #7c5cff, #60a5fa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-
-    header p {
-      color: var(--muted);
-      margin-top: 8px;
-      font-size: 1.05rem;
-    }
-
+    header p { color: var(--muted); margin-top: 8px; font-size: 1.05rem; }
     .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
-      margin-bottom: 20px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px; margin-bottom: 20px;
     }
-
     .card h2 {
-      font-size: 1.15rem;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 1.15rem; margin-bottom: 16px;
+      display: flex; align-items: center; gap: 8px;
     }
-
     .card h2 span { font-size: 1.3rem; }
-
-    label {
-      display: block;
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-bottom: 8px;
+    label { display: block; font-size: 0.9rem; color: var(--muted); margin-bottom: 8px; }
+    input[type="text"], input[type="password"], select {
+      width: 100%; background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 10px; color: var(--text); padding: 12px 14px;
+      font-size: 0.95rem; font-family: inherit; margin-bottom: 12px;
     }
-
-    input[type="text"] {
-      width: 100%;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text);
-      padding: 12px 14px;
-      font-size: 0.95rem;
-      font-family: inherit;
-      margin-bottom: 16px;
-    }
-
-    input[type="text"]:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
-
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
     textarea {
-      width: 100%;
-      min-height: 180px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text);
-      padding: 14px;
-      font-size: 0.95rem;
-      resize: vertical;
-      font-family: inherit;
+      width: 100%; min-height: 180px; background: var(--surface2);
+      border: 1px solid var(--border); border-radius: 10px; color: var(--text);
+      padding: 14px; font-size: 0.95rem; resize: vertical; font-family: inherit;
     }
-
-    textarea:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
-
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
     .dropzone {
-      border: 2px dashed var(--border);
-      border-radius: 12px;
-      padding: 28px 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      background: var(--surface2);
+      border: 2px dashed var(--border); border-radius: 12px; padding: 28px 20px;
+      text-align: center; cursor: pointer; transition: all 0.2s; background: var(--surface2);
     }
-
-    .dropzone:hover,
-    .dropzone.dragover {
-      border-color: var(--accent);
-      background: rgba(124, 92, 255, 0.08);
+    .dropzone:hover, .dropzone.dragover {
+      border-color: var(--accent); background: rgba(124, 92, 255, 0.08);
     }
-
     .dropzone p { color: var(--muted); font-size: 0.95rem; }
     .dropzone strong { color: var(--accent); }
-
     input[type="file"] { display: none; }
-
-    .file-list {
-      margin-top: 14px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
+    .file-list { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px; }
     .file-chip {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 12px;
-      font-size: 0.85rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      max-width: 100%;
+      background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+      padding: 8px 12px; font-size: 0.85rem; display: flex; align-items: center; gap: 8px;
     }
-
-    .file-chip img {
-      width: 36px;
-      height: 36px;
-      object-fit: cover;
-      border-radius: 6px;
-    }
-
-    .file-chip .name {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      max-width: 160px;
-    }
-
+    .file-chip img { width: 36px; height: 36px; object-fit: cover; border-radius: 6px; }
+    .file-chip .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 160px; }
     .file-chip button {
-      background: none;
-      border: none;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 1.1rem;
-      line-height: 1;
-      padding: 0 2px;
+      background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1.1rem;
     }
-
     .file-chip button:hover { color: var(--danger); }
-
-    .record-controls {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-top: 14px;
-      flex-wrap: wrap;
-    }
-
+    .record-controls { display: flex; align-items: center; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
     .rec-indicator {
-      display: none;
-      align-items: center;
-      gap: 8px;
-      color: var(--danger);
-      font-size: 0.9rem;
-      font-weight: 600;
+      display: none; align-items: center; gap: 8px; color: var(--danger); font-size: 0.9rem; font-weight: 600;
     }
-
     .rec-indicator.active { display: flex; }
-
     .rec-dot {
-      width: 10px;
-      height: 10px;
-      background: var(--danger);
-      border-radius: 50%;
+      width: 10px; height: 10px; background: var(--danger); border-radius: 50%;
       animation: blink 1s infinite;
     }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
     button.primary {
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      padding: 14px 28px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      background: var(--accent); color: white; border: none; border-radius: 10px;
+      padding: 14px 28px; font-size: 1rem; font-weight: 600; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
     }
-
     button.primary:hover { background: var(--accent-hover); }
     button.primary:disabled { opacity: 0.5; cursor: not-allowed; }
-
     button.secondary {
-      background: var(--surface2);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px 20px;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s;
+      background: var(--surface2); color: var(--text); border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 20px; font-size: 0.95rem; cursor: pointer;
     }
-
     button.secondary:hover { border-color: var(--accent); }
-
     button.danger {
-      background: rgba(239, 68, 68, 0.15);
-      color: var(--danger);
-      border: 1px solid var(--danger);
-      border-radius: 10px;
-      padding: 12px 20px;
-      font-size: 0.95rem;
-      cursor: pointer;
+      background: rgba(239, 68, 68, 0.15); color: var(--danger);
+      border: 1px solid var(--danger); border-radius: 10px; padding: 12px 20px;
+      font-size: 0.95rem; cursor: pointer;
     }
-
-    button.danger:hover { background: rgba(239, 68, 68, 0.25); }
-
     #result { display: none; }
     #result.visible { display: block; }
-
-    .status {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 20px;
-      font-size: 0.95rem;
-    }
-
+    .status { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; font-size: 0.95rem; }
     .spinner {
-      width: 18px;
-      height: 18px;
-      border: 2px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
+      width: 18px; height: 18px; border: 2px solid var(--border);
+      border-top-color: var(--accent); border-radius: 50%;
       animation: spin 0.7s linear infinite;
     }
-
     @keyframes spin { to { transform: rotate(360deg); } }
-
     .chapter {
-      background: var(--surface2);
-      border-radius: 10px;
-      padding: 16px 18px;
-      margin-bottom: 12px;
-      border-left: 3px solid var(--accent);
+      background: var(--surface2); border-radius: 10px; padding: 16px 18px;
+      margin-bottom: 12px; border-left: 3px solid var(--accent);
     }
-
     .chapter h3 { font-size: 1rem; margin-bottom: 6px; }
     .chapter p { color: var(--muted); font-size: 0.9rem; white-space: pre-wrap; }
     .chapter .meta { font-size: 0.8rem; color: var(--accent); margin-top: 8px; }
-
+    .synopsis {
+      background: rgba(124, 92, 255, 0.1); border: 1px solid rgba(124, 92, 255, 0.3);
+      border-radius: 10px; padding: 16px; margin-bottom: 20px;
+    }
+    .synopsis h3 { margin-bottom: 8px; color: var(--accent); }
     .platforms {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 12px;
-      margin-top: 16px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px; margin-top: 16px;
     }
-
     .platform {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px;
-      text-align: center;
-      transition: border-color 0.2s;
+      background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px; text-align: center;
     }
-
     .platform:hover { border-color: var(--accent); }
     .platform strong { display: block; margin-bottom: 4px; }
     .platform span { font-size: 0.8rem; color: var(--muted); }
-
-    .download-area {
-      margin-top: 24px;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
+    .download-area { margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap; }
     .stats {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-      font-size: 0.9rem;
-      color: var(--muted);
+      display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;
+      font-size: 0.9rem; color: var(--muted);
     }
-
     .stats span {
-      background: var(--surface2);
-      padding: 6px 12px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
+      background: var(--surface2); padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border);
     }
-
-    footer {
-      text-align: center;
-      margin-top: 48px;
-      color: var(--muted);
-      font-size: 0.85rem;
+    .hint { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+    .ai-badge {
+      display: inline-block; background: rgba(124, 92, 255, 0.2); color: var(--accent);
+      font-size: 0.75rem; padding: 2px 8px; border-radius: 6px; margin-left: 8px;
     }
-
+    footer { text-align: center; margin-top: 48px; color: var(--muted); font-size: 0.85rem; }
     footer a { color: var(--accent); text-decoration: none; }
   </style>
 </head>
@@ -352,7 +162,38 @@
       <p>Envie seu roteiro, áudio e imagens. A IA organiza tudo e gera o e-book.</p>
     </header>
 
-    <!-- Título do livro -->
+    <!-- Configuração de IA -->
+    <div class="card">
+      <h2><span>🤖</span> Configuração de IA <span class="ai-badge" id="aiStatus">Modo local</span></h2>
+      <div class="row">
+        <div>
+          <label for="aiProvider">Provedor</label>
+          <select id="aiProvider">
+            <option value="openai">OpenAI</option>
+            <option value="grok">Grok (xAI)</option>
+            <option value="custom">Custom (OpenAI-compatible)</option>
+          </select>
+        </div>
+        <div>
+          <label for="aiModel">Modelo</label>
+          <input type="text" id="aiModel" placeholder="gpt-4o-mini / grok-2" value="gpt-4o-mini" />
+        </div>
+      </div>
+      <label for="apiKey">API Key (salva só no seu navegador)</label>
+      <input type="password" id="apiKey" placeholder="sk-... ou xai-..." />
+      <div class="row">
+        <div>
+          <label for="customBase">Base URL (só para Custom)</label>
+          <input type="text" id="customBase" placeholder="https://api.exemplo.com/v1" />
+        </div>
+        <div style="display:flex;align-items:flex-end;gap:8px">
+          <button class="secondary" onclick="saveAIConfig()" style="width:100%">Salvar configuração</button>
+        </div>
+      </div>
+      <p class="hint">Sem chave → funciona em modo local. Com chave → a IA estrutura, melhora e gera sinopse.</p>
+    </div>
+
+    <!-- Título -->
     <div class="card">
       <h2><span>📖</span> Título do E-book</h2>
       <input type="text" id="bookTitle" placeholder="Ex: A Jornada do Herói" value="Meu E-book" />
@@ -370,10 +211,9 @@
       <h2><span>🎤</span> Áudio (opcional)</h2>
       <div class="dropzone" id="audioDropzone">
         <p>Arraste um arquivo de áudio aqui ou <strong>clique para selecionar</strong></p>
-        <p style="font-size:0.8rem;margin-top:6px">MP3, WAV, M4A, OGG</p>
+        <p style="font-size:0.8rem;margin-top:6px">MP3, WAV, M4A, OGG, WEBM</p>
         <input type="file" id="audioInput" accept="audio/*" />
       </div>
-
       <div class="record-controls">
         <button class="secondary" id="recordBtn" onclick="toggleRecording()">🔴 Gravar áudio</button>
         <div class="rec-indicator" id="recIndicator">
@@ -381,8 +221,8 @@
           <span>Gravando… <span id="recTime">0:00</span></span>
         </div>
       </div>
-
       <div class="file-list" id="audioList"></div>
+      <p class="hint">Transcrição automática de áudio chega na próxima melhoria (precisa de Whisper/API).</p>
     </div>
 
     <!-- Imagens -->
@@ -390,13 +230,13 @@
       <h2><span>🖼️</span> Imagens</h2>
       <div class="dropzone" id="imageDropzone">
         <p>Arraste imagens aqui ou <strong>clique para selecionar</strong></p>
-        <p style="font-size:0.8rem;margin-top:6px">JPG, PNG, WEBP — múltiplas permitidas</p>
+        <p style="font-size:0.8rem;margin-top:6px">JPG, PNG, WEBP</p>
         <input type="file" id="imageInput" accept="image/*" multiple />
       </div>
       <div class="file-list" id="imageList"></div>
     </div>
 
-    <!-- Outros arquivos -->
+    <!-- Outros -->
     <div class="card">
       <h2><span>📎</span> Outros arquivos (opcional)</h2>
       <div class="dropzone" id="otherDropzone">
@@ -411,8 +251,8 @@
       <button class="primary" id="generateBtn" onclick="generateEbook()">
         ✨ Gerar E-book com IA
       </button>
-      <p style="color:var(--muted);font-size:0.85rem;margin-top:12px">
-        A IA organiza a história e gera um PDF pronto para baixar (com imagens).
+      <p style="color:var(--muted);font-size:0.85rem;margin-top:12px" id="generateHint">
+        Modo local ativo. Adicione uma API Key acima para usar IA de verdade.
       </p>
     </div>
 
@@ -421,19 +261,20 @@
       <h2><span>📚</span> Resultado</h2>
       <div class="status" id="status">
         <div class="spinner"></div>
-        <span>Processando com a IA…</span>
+        <span>Processando…</span>
       </div>
 
       <div id="ebookContent" style="display:none">
         <div class="stats" id="stats"></div>
-
+        <div class="synopsis" id="synopsisBox" style="display:none">
+          <h3>Sinopse gerada pela IA</h3>
+          <p id="synopsisText"></p>
+        </div>
         <h3 style="margin-bottom:14px;font-size:1.1rem">Estrutura gerada</h3>
         <div id="chapters"></div>
-
         <div class="download-area">
-          <button class="primary" id="downloadPdfBtn" onclick="downloadPDF()">⬇ Baixar PDF</button>
+          <button class="primary" onclick="downloadPDF()">⬇ Baixar PDF</button>
         </div>
-
         <h3 style="margin:28px 0 12px;font-size:1.1rem">Onde publicar e vender</h3>
         <div class="platforms">
           <div class="platform"><strong>Amazon KDP</strong><span>Maior alcance global</span></div>
@@ -460,24 +301,108 @@
       imageDataUrls: [],
       others: [],
       chapters: [],
+      synopsis: '',
       title: 'Meu E-book',
       mediaRecorder: null,
       recordedChunks: [],
       isRecording: false,
       recStart: null,
-      recTimer: null
+      recTimer: null,
+      usedAI: false
     };
 
+    // === AI Config ===
+    function loadAIConfig() {
+      const cfg = JSON.parse(localStorage.getItem('aiEbookConfig') || '{}');
+      if (cfg.provider) document.getElementById('aiProvider').value = cfg.provider;
+      if (cfg.model) document.getElementById('aiModel').value = cfg.model;
+      if (cfg.apiKey) document.getElementById('apiKey').value = cfg.apiKey;
+      if (cfg.customBase) document.getElementById('customBase').value = cfg.customBase;
+      updateAIStatus();
+    }
+
+    function saveAIConfig() {
+      const cfg = {
+        provider: document.getElementById('aiProvider').value,
+        model: document.getElementById('aiModel').value.trim(),
+        apiKey: document.getElementById('apiKey').value.trim(),
+        customBase: document.getElementById('customBase').value.trim()
+      };
+      localStorage.setItem('aiEbookConfig', JSON.stringify(cfg));
+      updateAIStatus();
+      alert('Configuração salva neste navegador.');
+    }
+
+    function updateAIStatus() {
+      const key = document.getElementById('apiKey').value.trim();
+      const badge = document.getElementById('aiStatus');
+      const hint = document.getElementById('generateHint');
+      if (key) {
+        badge.textContent = 'IA conectada';
+        badge.style.background = 'rgba(34, 197, 94, 0.2)';
+        badge.style.color = 'var(--success)';
+        hint.textContent = 'IA real ativa. A história será estruturada e melhorada automaticamente.';
+      } else {
+        badge.textContent = 'Modo local';
+        badge.style.background = 'rgba(124, 92, 255, 0.2)';
+        badge.style.color = 'var(--accent)';
+        hint.textContent = 'Modo local ativo. Adicione uma API Key acima para usar IA de verdade.';
+      }
+    }
+
+    document.getElementById('apiKey').addEventListener('input', updateAIStatus);
+    document.getElementById('aiProvider').addEventListener('change', () => {
+      const p = document.getElementById('aiProvider').value;
+      if (p === 'grok') document.getElementById('aiModel').value = 'grok-2';
+      else if (p === 'openai') document.getElementById('aiModel').value = 'gpt-4o-mini';
+    });
+
+    function getAIEndpoint() {
+      const provider = document.getElementById('aiProvider').value;
+      if (provider === 'openai') return 'https://api.openai.com/v1/chat/completions';
+      if (provider === 'grok') return 'https://api.x.ai/v1/chat/completions';
+      return (document.getElementById('customBase').value.trim() || 'https://api.openai.com/v1') + '/chat/completions';
+    }
+
+    async function callAI(systemPrompt, userPrompt) {
+      const apiKey = document.getElementById('apiKey').value.trim();
+      const model = document.getElementById('aiModel').value.trim() || 'gpt-4o-mini';
+      if (!apiKey) throw new Error('Sem API Key');
+
+      const res = await fetch(getAIEndpoint(), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model,
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: userPrompt }
+          ],
+          temperature: 0.7
+        })
+      });
+
+      if (!res.ok) {
+        const err = await res.text();
+        throw new Error(`API ${res.status}: ${err.slice(0, 200)}`);
+      }
+
+      const data = await res.json();
+      return data.choices?.[0]?.message?.content || '';
+    }
+
+    // === Upload helpers (same as before) ===
     function setupDropzone(dropzoneId, inputId, type) {
       const dropzone = document.getElementById(dropzoneId);
       const input = document.getElementById(inputId);
-
       dropzone.addEventListener('click', () => input.click());
       dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
       dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
       dropzone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropzone.classList.remove('dragover');
+        e.preventDefault(); dropzone.classList.remove('dragover');
         handleFiles(e.dataTransfer.files, type);
       });
       input.addEventListener('change', (e) => handleFiles(e.target.files, type));
@@ -491,9 +416,7 @@
         Array.from(files).forEach(f => {
           state.images.push(f);
           const reader = new FileReader();
-          reader.onload = (e) => {
-            state.imageDataUrls.push(e.target.result);
-          };
+          reader.onload = (e) => state.imageDataUrls.push(e.target.result);
           reader.readAsDataURL(f);
         });
         renderImages();
@@ -509,45 +432,30 @@
       if (!state.audio) return;
       const chip = document.createElement('div');
       chip.className = 'file-chip';
-      const name = state.audio.name || 'Áudio gravado';
-      chip.innerHTML = `<span class="name">🎤 ${name}</span><button onclick="removeAudio()">×</button>`;
+      chip.innerHTML = `<span class="name">🎤 ${state.audio.name || 'Áudio gravado'}</span><button onclick="removeAudio()">×</button>`;
       list.appendChild(chip);
-
-      // Player simples
       if (state.audio instanceof Blob) {
-        const url = URL.createObjectURL(state.audio);
         const audio = document.createElement('audio');
         audio.controls = true;
-        audio.src = url;
+        audio.src = URL.createObjectURL(state.audio);
         audio.style.width = '100%';
         audio.style.marginTop = '10px';
         list.appendChild(audio);
       }
     }
-
-    function removeAudio() {
-      state.audio = null;
-      document.getElementById('audioInput').value = '';
-      renderAudio();
-    }
+    function removeAudio() { state.audio = null; document.getElementById('audioInput').value = ''; renderAudio(); }
 
     function renderImages() {
       const list = document.getElementById('imageList');
       list.innerHTML = '';
       state.images.forEach((file, i) => {
-        const url = URL.createObjectURL(file);
         const chip = document.createElement('div');
         chip.className = 'file-chip';
-        chip.innerHTML = `<img src="${url}" alt="" /><span class="name">${file.name}</span><button onclick="removeImage(${i})">×</button>`;
+        chip.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="" /><span class="name">${file.name}</span><button onclick="removeImage(${i})">×</button>`;
         list.appendChild(chip);
       });
     }
-
-    function removeImage(index) {
-      state.images.splice(index, 1);
-      state.imageDataUrls.splice(index, 1);
-      renderImages();
-    }
+    function removeImage(i) { state.images.splice(i, 1); state.imageDataUrls.splice(i, 1); renderImages(); }
 
     function renderOthers() {
       const list = document.getElementById('otherList');
@@ -559,28 +467,15 @@
         list.appendChild(chip);
       });
     }
+    function removeOther(i) { state.others.splice(i, 1); renderOthers(); }
 
-    function removeOther(index) {
-      state.others.splice(index, 1);
-      renderOthers();
-    }
-
-    // === Gravação de áudio ===
     async function toggleRecording() {
-      if (state.isRecording) {
-        stopRecording();
-        return;
-      }
-
+      if (state.isRecording) { stopRecording(); return; }
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         state.recordedChunks = [];
         state.mediaRecorder = new MediaRecorder(stream);
-
-        state.mediaRecorder.ondataavailable = (e) => {
-          if (e.data.size > 0) state.recordedChunks.push(e.data);
-        };
-
+        state.mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) state.recordedChunks.push(e.data); };
         state.mediaRecorder.onstop = () => {
           const blob = new Blob(state.recordedChunks, { type: 'audio/webm' });
           blob.name = 'gravacao_' + new Date().toISOString().slice(0,19).replace(/:/g,'-') + '.webm';
@@ -588,26 +483,19 @@
           renderAudio();
           stream.getTracks().forEach(t => t.stop());
         };
-
         state.mediaRecorder.start();
         state.isRecording = true;
         state.recStart = Date.now();
-
         document.getElementById('recordBtn').textContent = '⏹ Parar gravação';
         document.getElementById('recordBtn').classList.add('danger');
         document.getElementById('recordBtn').classList.remove('secondary');
         document.getElementById('recIndicator').classList.add('active');
-
         state.recTimer = setInterval(() => {
           const sec = Math.floor((Date.now() - state.recStart) / 1000);
-          const m = Math.floor(sec / 60);
-          const s = String(sec % 60).padStart(2, '0');
-          document.getElementById('recTime').textContent = `${m}:${s}`;
+          document.getElementById('recTime').textContent = `${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`;
         }, 200);
-
       } catch (err) {
-        alert('Não foi possível acessar o microfone. Verifique as permissões do navegador.');
-        console.error(err);
+        alert('Não foi possível acessar o microfone.');
       }
     }
 
@@ -616,7 +504,6 @@
       state.mediaRecorder.stop();
       state.isRecording = false;
       clearInterval(state.recTimer);
-
       document.getElementById('recordBtn').textContent = '🔴 Gravar áudio';
       document.getElementById('recordBtn').classList.remove('danger');
       document.getElementById('recordBtn').classList.add('secondary');
@@ -626,130 +513,163 @@
     setupDropzone('audioDropzone', 'audioInput', 'audio');
     setupDropzone('imageDropzone', 'imageInput', 'image');
     setupDropzone('otherDropzone', 'otherInput', 'other');
+    loadAIConfig();
 
-    /** Detecta capítulos de forma mais inteligente */
     function detectChapters(text) {
       const lines = text.split(/\n+/).map(l => l.trim()).filter(Boolean);
-      if (lines.length === 0) {
-        return [{ title: 'Capítulo 1 – Conteúdo a partir do áudio', body: 'A IA irá transcrever o áudio e estruturar a história automaticamente.' }];
-      }
-
+      if (!lines.length) return [{ title: 'Capítulo 1 – Conteúdo a partir do áudio', body: 'A IA irá transcrever o áudio e estruturar a história automaticamente.' }];
       const chapters = [];
       let current = null;
-
       const chapterRegex = /^(capítulo|capitulo|chapter|parte|seção|secao)\s*\d+/i;
       const numberedRegex = /^\d+[\.)]\s+/;
-
-      lines.forEach((line) => {
-        const isChapterTitle = chapterRegex.test(line) || (numberedRegex.test(line) && line.length < 80);
-
-        if (isChapterTitle) {
+      lines.forEach(line => {
+        const isTitle = chapterRegex.test(line) || (numberedRegex.test(line) && line.length < 80);
+        if (isTitle) {
           if (current) chapters.push(current);
           current = { title: line, body: '' };
         } else {
-          if (!current) {
-            current = { title: 'Capítulo 1 – Introdução', body: '' };
-          }
+          if (!current) current = { title: 'Capítulo 1 – Introdução', body: '' };
           current.body += (current.body ? '\n\n' : '') + line;
         }
       });
-
       if (current) chapters.push(current);
-
       if (chapters.length === 1 && chapters[0].body.length > 1200) {
         const parts = chapters[0].body.split(/\n\n+/);
-        const newChapters = [];
-        let buf = '';
-        let num = 1;
-
-        parts.forEach((p) => {
+        const newCh = []; let buf = ''; let num = 1;
+        parts.forEach(p => {
           buf += (buf ? '\n\n' : '') + p;
-          if (buf.length > 600) {
-            newChapters.push({ title: `Capítulo ${num}`, body: buf });
-            num++;
-            buf = '';
-          }
+          if (buf.length > 600) { newCh.push({ title: `Capítulo ${num}`, body: buf }); num++; buf = ''; }
         });
-        if (buf) newChapters.push({ title: `Capítulo ${num}`, body: buf });
-        return newChapters.length ? newChapters : chapters;
+        if (buf) newCh.push({ title: `Capítulo ${num}`, body: buf });
+        return newCh.length ? newCh : chapters;
       }
-
       return chapters;
     }
 
-    function generateEbook() {
+    async function processWithAI(text, title) {
+      const system = `Você é um editor profissional de e-books. Sua tarefa é organizar e melhorar o conteúdo de um livro.
+Responda APENAS com JSON válido no formato:
+{
+  "title": "título melhorado ou original",
+  "synopsis": "sinopse de 2-4 frases atraente",
+  "chapters": [
+    { "title": "Capítulo 1 – Nome", "body": "texto completo do capítulo..." }
+  ]
+}
+Regras:
+- Mantenha o idioma do texto original (português se for o caso)
+- Melhore clareza e fluidez sem inventar fatos
+- Divida em capítulos lógicos se ainda não estiverem divididos
+- Cada capítulo deve ter título claro
+- Sinopse deve ser comercial e convidativa`;
+
+      const user = `Título sugerido: ${title}\n\nConteúdo bruto:\n\n${text.slice(0, 12000)}`;
+
+      const raw = await callAI(system, user);
+      // Tenta extrair JSON mesmo se vier com markdown
+      const match = raw.match(/\{[\s\S]*\}/);
+      if (!match) throw new Error('Resposta da IA não contém JSON válido');
+      return JSON.parse(match[0]);
+    }
+
+    async function generateEbook() {
       const text = document.getElementById('storyText').value.trim();
       const title = document.getElementById('bookTitle').value.trim() || 'Meu E-book';
-
       if (!text && !state.audio) {
-        alert('Envie pelo menos um texto ou um áudio para gerar o e-book.');
+        alert('Envie pelo menos um texto ou um áudio.');
         return;
       }
 
       state.title = title;
+      state.synopsis = '';
+      state.usedAI = false;
+
       const btn = document.getElementById('generateBtn');
       const result = document.getElementById('result');
       const status = document.getElementById('status');
       const content = document.getElementById('ebookContent');
       const chaptersEl = document.getElementById('chapters');
       const statsEl = document.getElementById('stats');
+      const synopsisBox = document.getElementById('synopsisBox');
 
       btn.disabled = true;
       result.classList.add('visible');
       status.style.display = 'flex';
-      status.innerHTML = '<div class="spinner"></div><span>Processando com a IA…</span>';
       content.style.display = 'none';
       chaptersEl.innerHTML = '';
+      synopsisBox.style.display = 'none';
 
-      setTimeout(() => {
-        const chapters = detectChapters(text);
-        state.chapters = chapters;
+      const hasKey = !!document.getElementById('apiKey').value.trim();
 
-        // Stats
-        const totalWords = chapters.reduce((acc, ch) => acc + (ch.body || '').split(/\s+/).filter(Boolean).length, 0);
+      try {
+        if (hasKey && text) {
+          status.innerHTML = '<div class="spinner"></div><span>IA processando e estruturando o e-book…</span>';
+          const aiResult = await processWithAI(text, title);
+          state.chapters = aiResult.chapters || [];
+          state.synopsis = aiResult.synopsis || '';
+          if (aiResult.title) state.title = aiResult.title;
+          state.usedAI = true;
+        } else {
+          status.innerHTML = '<div class="spinner"></div><span>Processando localmente…</span>';
+          await new Promise(r => setTimeout(r, 1200));
+          state.chapters = detectChapters(text);
+        }
+
+        // Render
+        const totalWords = state.chapters.reduce((a, c) => a + (c.body || '').split(/\s+/).filter(Boolean).length, 0);
         statsEl.innerHTML = `
-          <span>📖 ${chapters.length} capítulo${chapters.length > 1 ? 's' : ''}</span>
+          <span>📖 ${state.chapters.length} capítulo${state.chapters.length !== 1 ? 's' : ''}</span>
           <span>✍️ ~${totalWords} palavras</span>
           <span>🖼️ ${state.images.length} imagem${state.images.length !== 1 ? 'ns' : ''}</span>
-          ${state.audio ? '<span>🎤 Áudio incluído</span>' : ''}
+          ${state.audio ? '<span>🎤 Áudio</span>' : ''}
+          <span>${state.usedAI ? '🤖 IA real' : '⚙️ Modo local'}</span>
         `;
 
-        chapters.forEach((ch, i) => {
+        if (state.synopsis) {
+          document.getElementById('synopsisText').textContent = state.synopsis;
+          synopsisBox.style.display = 'block';
+        }
+
+        state.chapters.forEach(ch => {
           const div = document.createElement('div');
           div.className = 'chapter';
           const words = (ch.body || '').split(/\s+/).filter(Boolean).length;
-          const preview = ch.body.length > 220 ? ch.body.slice(0, 220) + '…' : ch.body;
-          div.innerHTML = `
-            <h3>${ch.title}</h3>
-            <p>${preview || 'Conteúdo processado pela IA.'}</p>
-            <div class="meta">${words} palavras</div>
-          `;
+          const preview = (ch.body || '').length > 220 ? ch.body.slice(0, 220) + '…' : (ch.body || '');
+          div.innerHTML = `<h3>${ch.title}</h3><p>${preview || '—'}</p><div class="meta">${words} palavras</div>`;
           chaptersEl.appendChild(div);
         });
 
-        if (state.images.length > 0) {
+        if (state.images.length) {
           const div = document.createElement('div');
           div.className = 'chapter';
-          div.innerHTML = `
-            <h3>Ilustrações (${state.images.length})</h3>
-            <p>As imagens serão incluídas no PDF em páginas dedicadas.</p>
-            <div class="meta">Serão adicionadas ao final do e-book</div>
-          `;
+          div.innerHTML = `<h3>Ilustrações (${state.images.length})</h3><p>Incluídas no PDF em páginas dedicadas.</p>`;
           chaptersEl.appendChild(div);
         }
 
-        status.innerHTML = '<span style="color:var(--success)">✓ E-book estruturado com sucesso</span>';
+        status.innerHTML = `<span style="color:var(--success)">✓ E-book ${state.usedAI ? 'gerado pela IA' : 'estruturado'} com sucesso</span>`;
         content.style.display = 'block';
-        btn.disabled = false;
-        result.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 1600);
+      } catch (err) {
+        console.error(err);
+        status.innerHTML = `<span style="color:var(--danger)">Erro na IA: ${err.message}. Usando modo local.</span>`;
+        state.chapters = detectChapters(text);
+        state.usedAI = false;
+        // re-render básico
+        chaptersEl.innerHTML = '';
+        state.chapters.forEach(ch => {
+          const div = document.createElement('div');
+          div.className = 'chapter';
+          div.innerHTML = `<h3>${ch.title}</h3><p>${(ch.body || '').slice(0, 200)}…</p>`;
+          chaptersEl.appendChild(div);
+        });
+        content.style.display = 'block';
+      }
+
+      btn.disabled = false;
+      result.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function downloadPDF() {
-      if (!state.chapters.length) {
-        alert('Gere o e-book primeiro.');
-        return;
-      }
+      if (!state.chapters.length) { alert('Gere o e-book primeiro.'); return; }
 
       const doc = new jsPDF({ unit: 'mm', format: 'a4' });
       const pageWidth = doc.internal.pageSize.getWidth();
@@ -760,127 +680,107 @@
       // Capa
       doc.setFillColor(15, 15, 19);
       doc.rect(0, 0, pageWidth, pageHeight, 'F');
-
       doc.setTextColor(124, 92, 255);
       doc.setFontSize(12);
-      doc.text('AI EBOOK CREATOR', pageWidth / 2, 50, { align: 'center' });
-
+      doc.text('AI EBOOK CREATOR', pageWidth / 2, 45, { align: 'center' });
       doc.setTextColor(240, 240, 245);
-      doc.setFontSize(28);
+      doc.setFontSize(26);
       doc.setFont('helvetica', 'bold');
-      const titleLines = doc.splitTextToSize(state.title, maxWidth - 10);
-      doc.text(titleLines, pageWidth / 2, 90, { align: 'center' });
-
-      doc.setFontSize(12);
+      doc.text(doc.splitTextToSize(state.title, maxWidth - 10), pageWidth / 2, 85, { align: 'center' });
+      doc.setFontSize(11);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(160, 160, 176);
-      doc.text('Gerado com inteligência artificial', pageWidth / 2, 120, { align: 'center' });
-      doc.text(new Date().toLocaleDateString('pt-BR'), pageWidth / 2, 130, { align: 'center' });
+      doc.text(state.usedAI ? 'Gerado com inteligência artificial' : 'Estruturado localmente', pageWidth / 2, 115, { align: 'center' });
+      doc.text(new Date().toLocaleDateString('pt-BR'), pageWidth / 2, 125, { align: 'center' });
 
-      if (state.images.length > 0) {
-        doc.text(`${state.images.length} ilustração${state.images.length > 1 ? 'ões' : ''}`, pageWidth / 2, 145, { align: 'center' });
+      // Sinopse
+      if (state.synopsis) {
+        doc.addPage();
+        let y = margin;
+        doc.setTextColor(124, 92, 255);
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Sinopse', margin, y);
+        y += 12;
+        doc.setTextColor(40, 40, 50);
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'normal');
+        doc.splitTextToSize(state.synopsis, maxWidth).forEach(line => {
+          doc.text(line, margin, y); y += 6;
+        });
       }
 
       // Capítulos
-      state.chapters.forEach((ch) => {
+      state.chapters.forEach(ch => {
         doc.addPage();
         let y = margin;
-
         doc.setTextColor(124, 92, 255);
         doc.setFontSize(16);
         doc.setFont('helvetica', 'bold');
         const tLines = doc.splitTextToSize(ch.title, maxWidth);
         doc.text(tLines, margin, y);
         y += tLines.length * 8 + 6;
-
         doc.setDrawColor(124, 92, 255);
         doc.setLineWidth(0.5);
         doc.line(margin, y, pageWidth - margin, y);
         y += 10;
-
         doc.setTextColor(40, 40, 50);
         doc.setFontSize(11);
         doc.setFont('helvetica', 'normal');
-
-        const bodyLines = doc.splitTextToSize(ch.body || 'Conteúdo processado pela IA.', maxWidth);
-
-        bodyLines.forEach((line) => {
-          if (y > pageHeight - margin - 10) {
-            doc.addPage();
-            y = margin;
-          }
-          doc.text(line, margin, y);
-          y += 6;
+        doc.splitTextToSize(ch.body || '—', maxWidth).forEach(line => {
+          if (y > pageHeight - margin - 10) { doc.addPage(); y = margin; }
+          doc.text(line, margin, y); y += 6;
         });
       });
 
-      // Páginas de imagens
+      // Imagens
       state.imageDataUrls.forEach((dataUrl, idx) => {
         try {
           doc.addPage();
-          const imgProps = doc.getImageProperties(dataUrl);
-          const maxImgW = pageWidth - margin * 2;
-          const maxImgH = pageHeight - margin * 2 - 20;
-
-          let imgW = maxImgW;
-          let imgH = (imgProps.height * imgW) / imgProps.width;
-
-          if (imgH > maxImgH) {
-            imgH = maxImgH;
-            imgW = (imgProps.width * imgH) / imgProps.height;
-          }
-
-          const x = (pageWidth - imgW) / 2;
-          const y = margin + 10;
-
+          const props = doc.getImageProperties(dataUrl);
+          let imgW = pageWidth - margin * 2;
+          let imgH = (props.height * imgW) / props.width;
+          const maxH = pageHeight - margin * 2 - 20;
+          if (imgH > maxH) { imgH = maxH; imgW = (props.width * imgH) / props.height; }
           doc.setTextColor(124, 92, 255);
           doc.setFontSize(11);
           doc.text(`Ilustração ${idx + 1}`, pageWidth / 2, margin, { align: 'center' });
-
-          doc.addImage(dataUrl, 'JPEG', x, y, imgW, imgH);
-        } catch (e) {
-          console.warn('Não foi possível adicionar imagem', idx, e);
-        }
+          doc.addImage(dataUrl, 'JPEG', (pageWidth - imgW) / 2, margin + 10, imgW, imgH);
+        } catch (e) { console.warn(e); }
       });
 
-      // Página final – onde publicar
+      // Publicação
       doc.addPage();
       let y = margin;
-
       doc.setTextColor(124, 92, 255);
       doc.setFontSize(18);
       doc.setFont('helvetica', 'bold');
       doc.text('Onde publicar e vender', margin, y);
       y += 15;
-
       const platforms = [
-        ['Amazon KDP', 'Maior alcance global – kdp.amazon.com'],
-        ['Hotmart', 'Ideal para o público brasileiro – hotmart.com'],
-        ['Gumroad', 'Simples e direto – gumroad.com'],
-        ['Apple Books', 'Público premium – authors.apple.com'],
-        ['Google Play Books', 'Android + web – play.google.com/books'],
-        ['Kobo Writing Life', 'Boa alternativa – writinglife.kobo.com']
+        ['Amazon KDP', 'kdp.amazon.com'],
+        ['Hotmart', 'hotmart.com'],
+        ['Gumroad', 'gumroad.com'],
+        ['Apple Books', 'authors.apple.com'],
+        ['Google Play Books', 'play.google.com/books'],
+        ['Kobo Writing Life', 'writinglife.kobo.com']
       ];
-
       doc.setFontSize(12);
-      platforms.forEach(([name, desc]) => {
+      platforms.forEach(([name, url]) => {
         doc.setTextColor(30, 30, 40);
         doc.setFont('helvetica', 'bold');
-        doc.text(name, margin, y);
-        y += 6;
+        doc.text(name, margin, y); y += 6;
         doc.setFont('helvetica', 'normal');
         doc.setTextColor(80, 80, 90);
-        doc.text(desc, margin, y);
-        y += 12;
+        doc.text(url, margin, y); y += 12;
       });
-
-      y += 10;
+      y += 8;
       doc.setFontSize(10);
       doc.setTextColor(140, 140, 150);
       doc.text('Gerado por AI Ebook Creator · github.com/josemar14/ai-ebook-creator', margin, y);
 
-      const safeName = state.title.replace(/[^a-zA-Z0-9À-ú\s]/g, '').trim().replace(/\s+/g, '_') || 'ebook';
-      doc.save(`${safeName}.pdf`);
+      const safe = state.title.replace(/[^a-zA-Z0-9À-ú\s]/g, '').trim().replace(/\s+/g, '_') || 'ebook';
+      doc.save(`${safe}.pdf`);
     }
   </script>
 </body>
