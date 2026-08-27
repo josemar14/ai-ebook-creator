@@ -20,10 +20,11 @@ Um agente de IA lê tudo, organiza a história, integra áudio/imagem/texto e ge
 No final, a IA sugere plataformas para publicar e vender o e-book.
 
 **O que o usuário consegue fazer hoje:**
-- Enviar texto, áudio e imagens
+- Enviar texto, áudio (upload ou gravação) e imagens
 - Detectar capítulos automaticamente
-- Gerar e baixar PDF real
-- Receber sugestões de canais de venda (Amazon KDP, Hotmart, Gumroad etc.)
+- Ver preview rico (nº de capítulos, palavras, imagens)
+- Gerar e baixar PDF real **com imagens incluídas**
+- Receber sugestões de canais de venda
 
 ---
 
@@ -33,8 +34,8 @@ No final, a IA sugere plataformas para publicar e vender o e-book.
 |--------|------------|
 | Frontend | HTML + CSS + JavaScript (vanilla) |
 | PDF | jsPDF (CDN) |
+| Áudio | Upload + MediaRecorder (gravação no navegador) |
 | IA | Agente de IA (Grok / OpenAI / Claude — a definir) |
-| Áudio | Upload + (futuro) MediaRecorder + transcrição via IA |
 
 **Entrypoint:** `index.html`  
 **Rotas / módulos principais:** Single Page App (tudo em index.html por enquanto)  
@@ -45,10 +46,10 @@ No final, a IA sugere plataformas para publicar e vender o e-book.
 
 ### 3.1 Fluxo do usuário
 
-- Aceitar input em texto **ou** áudio
+- Aceitar input em texto **ou** áudio (upload ou gravação)
 - Aceitar múltiplas imagens e arquivos
-- Organizar história de forma coerente (capítulos, sequência lógica)
-- Integrar imagens no lugar certo da narrativa (futuro)
+- Organizar história de forma coerente (capítulos)
+- Incluir imagens no PDF
 - No final sempre sugerir plataformas de venda
 - Gerar PDF baixável
 
@@ -67,10 +68,10 @@ No final, a IA sugere plataformas para publicar e vender o e-book.
 
 ## 5. Fluxo operacional do usuário
 
-1. Usuário abre o app, define título e envia roteiro (texto ou áudio) + imagens
-2. Sistema detecta capítulos e estrutura o conteúdo
+1. Usuário define título e envia roteiro (texto ou grava/áudio) + imagens
+2. Sistema detecta capítulos e mostra preview com estatísticas
 3. Usuário revisa a estrutura
-4. Baixa o PDF
+4. Baixa o PDF (com imagens e página de publicação)
 5. Recebe sugestões de onde publicar e vender
 
 ---
@@ -79,14 +80,13 @@ No final, a IA sugere plataformas para publicar e vender o e-book.
 
 | Tema | Decisão / fix |
 |------|----------------|
-| Criação do repo | Repo criado em 2026-08-24 com Celebro instalado |
-| Nome do projeto | ai-ebook-creator |
-| Stack inicial | HTML + vanilla JS + jsPDF |
-| Protótipo | index.html com upload + mock de IA |
-| PDF real | Geração de PDF funcional no navegador (2026-08-27) |
-| Capítulos | Detecção melhorada (regex de capítulo + divisão por tamanho) |
-| Organização | ROADMAP.md criado |
-| Prioridade atual | Fase 1 — Core útil (gravação de áudio, imagens no PDF) |
+| Criação do repo | 2026-08-24 |
+| Stack | HTML + vanilla JS + jsPDF + MediaRecorder |
+| PDF real | Funcional com capa + capítulos + imagens + plataformas |
+| Gravação de áudio | MediaRecorder implementado (2026-08-27) |
+| Imagens no PDF | Incluídas em páginas dedicadas |
+| Preview | Stats (capítulos, palavras, imagens) |
+| Fase atual | Fase 1 quase completa → próxima = Fase 2 (IA real) |
 
 ---
 
@@ -94,23 +94,22 @@ No final, a IA sugere plataformas para publicar e vender o e-book.
 
 | Arquivo | Função |
 |---------|--------|
-| `Celebro.md` | Memória operacional do projeto |
+| `Celebro.md` | Memória operacional |
 | `ROADMAP.md` | Fases e prioridades |
 | `AGENTS.md` | Instruções multi-agente |
 | `.cursorrules` | Regras para Cursor |
 | `docs/ai-instructions.md` | Instruções para outros chats |
-| `index.html` | Entrypoint do app (protótipo funcional + PDF) |
+| `index.html` | App completo (protótipo avançado) |
 | `README.md` | Documentação principal |
 
 ---
 
 ## 8. Ainda opcional / próximo
 
-- Gravação de áudio direto no navegador
-- Incluir imagens no PDF
-- Integração real com API de IA
+- Melhorar estilos de capa do PDF (polish)
+- **Fase 2:** Integração real com API de IA
+- Transcrição de áudio
 - Exportação EPUB
-- Definir modelo de IA preferido
 - Deploy
 
 ---
